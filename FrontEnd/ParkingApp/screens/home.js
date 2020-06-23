@@ -98,7 +98,7 @@ export default function Home({ navigation }) {
       </View>
 
       <View style={{ justifyContent: "center" }}>
-        <TouchableOpacity onPress={() => setModalOpen(true)}>
+        <TouchableOpacity onPress={() => pressLogo()}>
           <View>
             <Text style={globalStyles.ques}>
               Are you a regular user? Sign Up!
