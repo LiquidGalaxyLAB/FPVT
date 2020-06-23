@@ -11,6 +11,7 @@ export default function Card(props) {
 
 const styles = StyleSheet.create({
   card: {
+    flex: 1,
     borderRadius: 6,
     elevation: 3,
     backgroundColor: "#fff",
@@ -18,8 +19,8 @@ const styles = StyleSheet.create({
     shadowColor: "#333",
     shadowOpacity: 0.3,
     shadowRadius: 2,
-    marginHorizontal: 4,
-    marginVertical: 6,
+    marginHorizontal: 15,
+    marginVertical: 15,
   },
   cardContent: {
     marginVertical: 10,

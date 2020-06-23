@@ -80,6 +80,38 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "space-evenly",
     color: "#292929",
     fontFamily: "OpenSans-Light",
+
     // fontWeight: "bold",
+  },
+  fields: {
+    paddingBottom: 0,
+  },
+  errorText: {
+    color: "crimson",
+    fontWeight: "bold",
+    marginBottom: 10,
+    marginTop: 6,
+    textAlign: "center",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "#fff",
+    fontWeight: "bold",
+    fontFamily: "OpenSans-Light",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ddd",
+    padding: 10,
+    fontSize: 18,
+    borderRadius: 6,
+    flexDirection: "row",
+    backgroundColor: "#C8DCEF",
+  },
+  picker: {
+    // fontSize: 12,
+    // backgroundColor: "#C8DCEF",
+    transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
   },
 });

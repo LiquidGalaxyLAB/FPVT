@@ -3,6 +3,7 @@ import { createAppContainer } from "react-navigation";
 
 import HomeStack from "./homeStack";
 import AboutStack from "./aboutStack";
+import SignUpStack from "./signupStack";
 
 const RootDrawerNavigator = createDrawerNavigator(
   {
@@ -11,6 +12,9 @@ const RootDrawerNavigator = createDrawerNavigator(
     },
     About: {
       screen: AboutStack,
+    },
+    SignUp: {
+      screen: SignUpStack,
     },
   },
   {

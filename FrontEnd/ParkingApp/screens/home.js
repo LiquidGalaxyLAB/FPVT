@@ -17,10 +17,15 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Icon, registerCustomIconType } from "react-native-elements";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 registerCustomIconType("font-awesome-5", FontAwesome5);
+import SignUp from "./userlogin/signup";
 
 export default function Home({ navigation }) {
   const pressHandler = () => {
     navigation.navigate("ParkingView");
+  };
+
+  const pressHandler2 = () => {
+    navigation.navigate("SignUp");
   };
 
   const pressLogo = () => {
@@ -98,7 +103,7 @@ export default function Home({ navigation }) {
       </View>
 
       <View style={{ justifyContent: "center" }}>
-        <TouchableOpacity onPress={() => pressLogo()}>
+        <TouchableOpacity onPress={pressHandler2}>
           <View>
             <Text style={globalStyles.ques}>
               Are you a regular user? Sign Up!
