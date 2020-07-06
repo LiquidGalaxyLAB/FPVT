@@ -1,8 +1,20 @@
 from flask import (
     Flask,
-    render_template
+    render_template,
+    send_from_directory
 )
 import connexion
+import numpy as np
+import io
+
+# Load the model
+
+
+# Model result (creating picture)
+
+
+# Response with data of the picture after loading once
+
 
 # Create the application instance
 app = connexion.App(__name__, specification_dir='./')

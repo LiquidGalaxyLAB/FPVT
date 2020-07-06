@@ -1,4 +1,4 @@
-# Create a handler for our read (GET) people
+# Create a handler for our read (GET) 
 def read():
     """
     This function responds to a request for /api/signup

@@ -32,3 +32,9 @@ paths:
             #       type: "string"
             #     timestamp:
             #       type: "string"
+  /image:
+    get:
+      operationId: "image.showim"
+      responses:
+        200:
+          description: "OK"
