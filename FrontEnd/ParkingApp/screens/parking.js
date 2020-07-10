@@ -15,6 +15,10 @@ import {
   Alert,
 } from "react-native";
 import { globalStyles } from "../styles/global.js";
+import ProgressCircle from "react-native-progress-circle";
+import { Icon, registerCustomIconType } from "react-native-elements";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+registerCustomIconType("font-awesome-5", FontAwesome5);
 
 // const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -26,14 +30,111 @@ export default function ParkingView() {
   };
   return (
     <ScrollView style={{ backgroundColor: "#fff" }}>
-      <View style={{ marginTop: 25 }}>
+      {/* <View style={{ marginTop: 25 }}>
         <Text style={globalStyles.text2}>Total Capacity</Text>
         <Text style={globalStyles.text3}>40</Text>
         <Text style={globalStyles.text2}>Number of free spots</Text>
         <Text style={globalStyles.text3}>8</Text>
         <Text style={globalStyles.text2}>Number of occupied spots</Text>
         <Text style={globalStyles.text3}>32</Text>
+      </View> */}
+
+      <View style={styles.stats}>
+        <ProgressCircle
+          percent={100}
+          radius={40}
+          borderWidth={3}
+          color="grey"
+          shadowColor="#999"
+          bgColor="#fff"
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              marginTop: 5,
+              marginBottom: 2,
+              color: "#4b788f",
+            }}
+          >
+            {"85"}
+          </Text>
+          <Text
+            style={{
+              fontSize: 11,
+              marginTop: 5,
+              marginBottom: 2,
+              fontFamily: "OpenSans-Regular",
+              color: "grey",
+            }}
+          >
+            {"TOTAL"}
+          </Text>
+        </ProgressCircle>
+        <ProgressCircle
+          percent={2800 / 85}
+          radius={40}
+          borderWidth={3}
+          color="red" //#EF8354
+          shadowColor="#999"
+          bgColor="#fff"
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              marginTop: 5,
+              marginBottom: 2,
+              color: "red",
+            }}
+          >
+            {"28"}
+          </Text>
+          <Text
+            style={{
+              fontSize: 11,
+              marginTop: 5,
+              marginBottom: 2,
+              fontFamily: "OpenSans-Regular",
+              color: "grey",
+            }}
+          >
+            {"BUSY"}
+          </Text>
+        </ProgressCircle>
+        <ProgressCircle
+          percent={5700 / 85}
+          radius={40}
+          borderWidth={3}
+          color="green"
+          shadowColor="#999"
+          bgColor="#fff"
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              marginTop: 5,
+              marginBottom: 2,
+              color: "green",
+            }}
+          >
+            {"57"}
+          </Text>
+          <Text
+            style={{
+              fontSize: 11,
+              marginTop: 5,
+              marginBottom: 2,
+              fontFamily: "OpenSans-Regular",
+              color: "grey",
+            }}
+          >
+            {"FREE"}
+          </Text>
+        </ProgressCircle>
       </View>
+
       <View style={{ marginTop: 15 }}>
         <Image
           style={{
@@ -64,4 +165,16 @@ export default function ParkingView() {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  stats: {
+    flex: 1,
+    marginTop: 30,
+    marginLeft: 2,
+    marginRight: 2,
+    marginBottom: 20,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+});

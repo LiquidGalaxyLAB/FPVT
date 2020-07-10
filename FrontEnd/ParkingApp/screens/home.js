@@ -11,6 +11,7 @@ import {
   Keyboard,
   Alert,
   StyleSheet,
+  Picker,
 } from "react-native";
 import ProgressCircle from "react-native-progress-circle";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -27,6 +28,8 @@ export default function Home({ navigation }) {
   const pressHandler2 = () => {
     navigation.navigate("SignUp");
   };
+
+  const [selectedValue, setSelectedValue] = useState("all");
 
   const pressLogo = () => {
     Alert.alert("Todo", " Add Functionality ", [
@@ -92,6 +95,21 @@ export default function Home({ navigation }) {
         </ProgressCircle>
       </View>
 
+      <View style={styles.dropdown}>
+        <Text style={styles.dropdowntxt}>Choose parking type</Text>
+        <Picker
+          selectedValue={selectedValue}
+          style={styles.internalPickerContainer}
+          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+          itemStyle={styles.pickerIosListItemContainer}
+          itemTextStyle={styles.pickerIosListItemText}
+        >
+          <Picker.Item label="All" value="all" />
+          <Picker.Item label="Electric" value="el" />
+          <Picker.Item label="Reserved" value="re" />
+        </Picker>
+      </View>
+
       <View style={globalStyles.container}>
         <View style={globalStyles.buttonContainer}>
           <Button
@@ -150,5 +168,35 @@ const styles = StyleSheet.create({
     lineHeight: 32,
     fontFamily: "OpenSans-Regular",
     color: "white",
+  },
+  dropdown: {
+    flex: 1,
+    alignItems: "center",
+    // flexDirection: "row",
+    justifyContent: "space-around",
+    paddingLeft: 16,
+  },
+  dropdowntxt: {
+    justifyContent: "center",
+    textAlign: "center",
+    fontSize: 16,
+    marginLeft: 25,
+    marginRight: 25,
+    backgroundColor: "#fff",
+    lineHeight: 23,
+    fontFamily: "OpenSans-Light",
+  },
+  internalPickerContainer: {
+    flex: Platform.OS === "ios" ? 1 : null, // for Android, not visible otherwise.
+    width: Platform.OS === "ios" ? undefined : 120,
+  },
+  pickerIosListItemContainer: {
+    flex: 1,
+    height: 60,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  pickerIosListItemText: {
+    fontSize: 16,
   },
 });
