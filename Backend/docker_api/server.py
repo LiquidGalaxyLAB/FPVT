@@ -8,7 +8,9 @@ import numpy as np
 import io
 
 # Load the model
-
+# from subprocess import call
+# import detector
+# call(["python", "detector.py"])
 
 # Model result (creating picture)
 

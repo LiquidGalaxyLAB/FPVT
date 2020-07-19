@@ -13,28 +13,43 @@ basePath: "/api"
 # Paths supported by the server application
 paths:
   /signup:
-    get:
-      operationId: "signup.read"
+    post:
+      operationId: "signup.send"
       # tags:
         # - "SignUp"
-      # summary: "The people data structure supported by the server application"
+      # summary: "The people sign up data"
       # description: "Read the list of people"
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        - text/xml
+        - text/html
+
       responses:
         200:
           description: "OK"
-          schema:
-            type: "array"
-            # items:
-            #   properties:
-            #     fname:
-            #       type: "string"
-            #     lname:
-            #       type: "string"
-            #     timestamp:
-            #       type: "string"
+          examples:
+            application/json:
+             {
+               "status": "Success"
+             }
+
   /image:
     get:
       operationId: "image.showim"
+      responses:
+        200:
+          description: "OK"
+  /image_encoded:
+    get:
+      operationId: "image.encode_im"
+      responses:
+        200:
+          description: "OK"
+  /model:
+    post:
+      operationId: "detector.test"
       responses:
         200:
           description: "OK"
