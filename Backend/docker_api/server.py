@@ -8,14 +8,10 @@ import numpy as np
 import io
 
 # Load the model
-# from subprocess import call
-# import detector
-# call(["python", "detector.py"])
+import detector
 
-# Model result (creating picture)
-
-
-# Response with data of the picture after loading once
+# Create KML file
+from liquidgalaxy import kml_generator
 
 
 # Create the application instance

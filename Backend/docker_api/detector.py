@@ -1,58 +1,69 @@
-import base64
-import io
-# from shapely.geometry import Polygon as shapely_poly
-# from shapely.geometry import box
-import argparse
+#!/usr/bin/python
+# coding: utf-8
+
+# Installing required packages
+import os
+os.system("sudo apt-get install git")
+os.system("sudo apt-get install wget")
+os.system("sudo apt-get install cv2")
+os.system("sudo apt-get install numpy")
+os.system("sudo apt-get install pickle")
+os.system("sudo apt-get install pathlib")
+os.system("sudo apt-get install glob")
+os.system("sudo apt-get install pandas")
+os.system("sudo apt-get install pykml")
+
+# Importing the required packages
 import pickle
 from pathlib import Path
 import cv2
 import numpy as np
 import git
-import os
-from ctypes import *
 import glob
 import pandas as pd
 import pykml
 import wget
-import sys
 
+def First():
+    # Cloning and Building Darknet
+    if not os.path.exists("darknet"):
+        print("Cloning darknet...")
+        git.Git("./").clone("https://github.com/AlexeyAB/darknet.git")
+        print('Done')
 
-# if not os.path.exists("darknet"):
-#     print("Cloning darknet...")
-#     git.Git("./").clone("https://github.com/AlexeyAB/darknet.git")
-#     print('Done')
-#
-# sys.path.insert(1, 'C:/Users/20190234/Documents/GSOC2020/App/Backend/docker_api/darknet/')
-from darknet import darknet
+    # Change makefile to have GPU nad OPENCV enabled
+    os.chdir("./darknet")
+    os.system("pwd")
+    print('dir changed!')
+    # os.system("/bin/bash")
+    os.system("sed -i 's/OPENCV=0/OPENCV=1/' Makefile")
+    os.system("sed -i 's/GPU=0/GPU=1/' Makefile")
+    os.system("sed -i 's/CUDNN=0/CUDNN=1/' Makefile")
+    os.system("sed -i 's/CUDNN_HALF=0/CUDNN_HALF=1/' Makefile")
+    os.system("sed -i 's/LIBSO=0/LIBSO=1/' Makefile")
+    print('Changed makefile!')
 
-# from darknet.darknet import *
-# import subprocess
+    # Verify CUDA
+    os.system("usr/local/cuda/bin/nvcc - version")
 
-# os.system("%cd darknet")
-# os.chdir("darknet")
-# subprocess.call(["sed -i 's/OPENCV=0/OPENCV=1/' Makefile"], shell=True)
-# os.system("sed -i 's/OPENCV=0/OPENCV=1/' Makefile")
-# os.system("sed -i 's/GPU=0/GPU=1/' Makefile")
-# os.system("sed -i 's/CUDNN=0/CUDNN=1/' Makefile")
-# os.system("sed -i 's/CUDNN_HALF=0/CUDNN_HALF=1/' Makefile")
-# os.system("sed -i 's/LIBSO=0/LIBSO=1/' Makefile")
-# print('Changed makefile!')
-# subprocess.run(["sed -i 's/OPENCV=0/OPENCV=1/' Makefile"])
-# subprocess.run(["ls"])
-# if not os.path.exists("./yolov4.weights"):
-#     wget.download('https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights', 'darknet/yolov4.weights')
+    # Make darknet
+    os.system("make")
 
+    # Download pre-trained YOLOv4 weights
+    if not os.path.exists("./yolov4.weights"):
+        wget.download('https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights')
 
-# os.system("make")
+    return("Setup completed!")
 
-
-with open('./data/regions.p', 'rb') as f:
-    parked_car_boxes = pickle.load(f)
-pl_camera = pd.Series(parked_car_boxes).to_frame()
-pl_camera.drop([123], inplace=True)
-park_tags = pd.read_csv('./data/parking_regions.csv')
-parked_cars = pd.merge(pl_camera, park_tags, left_index=True, right_index=True)
-parked_cars.columns = ['polygon','pname']
+def read_regions():
+    with open('../data/regions.p', 'rb') as f:
+        parked_car_boxes = pickle.load(f)
+    pl_camera = pd.Series(parked_car_boxes).to_frame()
+    pl_camera.drop([123], inplace=True)
+    park_tags = pd.read_csv('../data/parking_regions.csv')
+    parked_cars = pd.merge(pl_camera, park_tags, left_index=True, right_index=True)
+    parked_cars.columns = ['polygon','pname']
+    return parked_cars
 
 
 def read_kml(filename):
@@ -147,9 +158,9 @@ altNames = None
 def YOLO(image_list):
 
     global metaMain, netMain, altNames
-    configPath = "./darknet/cfg/yolov4.cfg"
-    weightPath = "./darknet/yolov4.weights"
-    metaPath = "./darknet/cfg/coco.data"
+    configPath = "./cfg/yolov4.cfg"
+    weightPath = "./yolov4.weights"
+    metaPath = "./cfg/coco.data"
     if not os.path.exists(configPath):
         raise ValueError("Invalid config path `" +
                          os.path.abspath(configPath)+"`")
@@ -211,7 +222,7 @@ def YOLO(image_list):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         from cv2 import imwrite
-        imwrite( "./templates/static/images/new_output.jpg", image);
+        imwrite( "../templates/static/images/new_output.jpg", image);
 
         # cv2.imshow('Output', image)
         cv2.waitKey(0)
@@ -219,8 +230,12 @@ def YOLO(image_list):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
+    # Run setup steps
+    First()
+    #================================================================
+    parked_cars = read_regions()
 	#================================================================
-    # 2. Purpose : Get the list of Input Image Files
+    # Get the list of Input Image Files
     #================================================================
     image_path = "./templates/static/images/Test_img"			#  Directory of the image folder
     image_list = glob.glob(image_path + "*.jpg")			#  Get list of Images
@@ -229,7 +244,13 @@ if __name__ == "__main__":
 
     YOLO(image_list)
 
-filename = './liquidgalaxy/kml_tmp/Full_Parking.kml'
-data_kml = read_kml(filename)
-final_df = pd.merge(data_kml, parked_cars, left_on=['PName'], right_on=['pname'], how='left')
-final_df.to_csv('./data/Consolidated_data.csv')
+    filename = './data/Full_Parking.kml'
+    data_kml = read_kml(filename)
+    final_df = pd.merge(data_kml, parked_cars, left_on=['PName'], right_on=['pname'], how='left')
+    final_df['color'] = np.nan
+    final_df['color'][final_df.Status == 'Occupied'] = "red"
+    final_df['color'][final_df.Status == 'Free'] = "green"
+    final_df['color'].fillna('yellow', inplace=True)
+    # Setting reserved parking regions to blue color
+    final_df['color'][final_df.pname.isin(['R10-S27','R1-1','R8-S29'])] = "blue"
+    final_df.to_csv('./data/Consolidated_data.csv')

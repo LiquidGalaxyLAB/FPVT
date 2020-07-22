@@ -1,10 +1,15 @@
 # Create a handler for our read (GET) 
-def read():
+def send():
     """
     This function responds to a request for /api/signup
 
-    :return:        hello
     """
-    txt = "Sign Up Successful"
+    initialdata = {{
+    "email": "charanyac2dease@wd.im",
+    "handicapped": true,
+    "name": "vedvwevv",
+    "phone": "25275",
+    "vehicletype": "f",
+    }}
     # Create the list of people from our data
-    return txt
+    return initialdata
