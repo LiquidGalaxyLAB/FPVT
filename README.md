@@ -16,7 +16,7 @@ The pretrained yolov4 model is trained from AlexeyAB's darknet repository. (http
 
 
 ## Installing / Getting started
-(../master/docs/INSTALL.md)
+
 
 ### Built With
 Python3, React Native, Docker
