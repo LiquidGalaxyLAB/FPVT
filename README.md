@@ -12,16 +12,6 @@ This project is developed as part of the Google Summer Of Code 2020. Using integ
 ﻿# Before Installation
 The pretrained yolov4 model is trained from AlexeyAB's darknet repository. (https://github.com/AlexeyAB/darknet)
 
-### Requirements
-
-* Windows or Linux
-* **CMake >= 3.12**: https://cmake.org/download/
-* **CUDA 10.0**: https://developer.nvidia.com/cuda-toolkit-archive (on Linux do [Post-installation Actions](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#post-installation-actions))
-* **OpenCV >= 2.4**
-* **cuDNN >= 7.0 for CUDA 10.0** https://developer.nvidia.com/rdp/cudnn-archive
-* **GPU with CC >= 3.0**: https://en.wikipedia.org/wiki/CUDA#GPUs_supported
-
-
 ﻿# Installation
 
 
