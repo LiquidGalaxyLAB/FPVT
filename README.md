@@ -1,4 +1,4 @@
-﻿# Free Parking Visualization Tool
+# Free Parking Visualization Tool
 
 ## __Google Summer Of Code 2020__
 <p align="center"> 
@@ -9,10 +9,10 @@ This project is developed as part of the Google Summer Of Code 2020. Using integ
 
 © Liquid Galaxy, Google Summer of Code 2020 GitHub, Inc.
 
-﻿# Before Installation
+# Before Installation
 The pretrained yolov4 model is trained from AlexeyAB's darknet repository. (https://github.com/AlexeyAB/darknet)
 
-﻿# Installation
+# Installation
 
 
 ## Installing / Getting started
