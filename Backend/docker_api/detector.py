@@ -3,19 +3,20 @@
 
 # Installing required packages
 import os
-os.system("sudo apt-get install git")
+os.system("sudo pip3 install gitpython")
 os.system("sudo apt-get install wget")
-os.system("sudo apt-get install cv2")
+# os.system("sudo apt-get install python-opencv")
+os.system("sudo pip3 install opencv-python")
 os.system("sudo apt-get install numpy")
 os.system("sudo apt-get install pickle")
-os.system("sudo apt-get install pathlib")
 os.system("sudo apt-get install glob")
-os.system("sudo apt-get install pandas")
-os.system("sudo apt-get install pykml")
+os.system("pip3 install pandas")
+os.system("sudo pip3 install pykml")
+os.system("sudo pip3 install lxml --upgrade")
+
 
 # Importing the required packages
 import pickle
-from pathlib import Path
 import cv2
 import numpy as np
 import git
@@ -31,20 +32,20 @@ def First():
         git.Git("./").clone("https://github.com/AlexeyAB/darknet.git")
         print('Done')
 
-    # Change makefile to have GPU nad OPENCV enabled
+    # Change makefile
     os.chdir("./darknet")
     os.system("pwd")
     print('dir changed!')
     # os.system("/bin/bash")
-    os.system("sed -i 's/OPENCV=0/OPENCV=1/' Makefile")
-    os.system("sed -i 's/GPU=0/GPU=1/' Makefile")
-    os.system("sed -i 's/CUDNN=0/CUDNN=1/' Makefile")
-    os.system("sed -i 's/CUDNN_HALF=0/CUDNN_HALF=1/' Makefile")
+    # os.system("sed -i 's/OPENCV=0/OPENCV=1/' Makefile")
+    # os.system("sed -i 's/GPU=0/GPU=1/' Makefile")
+    # os.system("sed -i 's/CUDNN=0/CUDNN=1/' Makefile")
+    # os.system("sed -i 's/CUDNN_HALF=0/CUDNN_HALF=1/' Makefile")
     os.system("sed -i 's/LIBSO=0/LIBSO=1/' Makefile")
     print('Changed makefile!')
 
     # Verify CUDA
-    os.system("usr/local/cuda/bin/nvcc - version")
+    # os.system("usr/local/cuda/bin/nvcc - version")
 
     # Make darknet
     os.system("make")
@@ -56,13 +57,22 @@ def First():
     return("Setup completed!")
 
 def read_regions():
-    with open('../data/regions.p', 'rb') as f:
+    base_dir = get_base_dir()
+    file0 = os.path.join(base_dir + '/docker_api/data/regions.p')
+    print(file0)
+    with open(file0, 'rb') as f:
         parked_car_boxes = pickle.load(f)
+    print(parked_car_boxes[0])
     pl_camera = pd.Series(parked_car_boxes).to_frame()
     pl_camera.drop([123], inplace=True)
-    park_tags = pd.read_csv('../data/parking_regions.csv')
+    file1 = os.path.join(base_dir + '/docker_api/data/parking_regions.csv')
+    print(file1)
+    park_tags = pd.read_csv(file1)
+    print(park_tags.head())
     parked_cars = pd.merge(pl_camera, park_tags, left_index=True, right_index=True)
     parked_cars.columns = ['polygon','pname']
+    print(parked_cars.head())
+    print("Step 1 complete!")
     return parked_cars
 
 
@@ -91,20 +101,24 @@ def read_kml(filename):
     polygons_df = pd.DataFrame(polygons)
     data_kml = pd.merge(polygons_df,coord_all_df, left_index=True, right_index=True)
     data_kml.columns = ['PName','geometry']
+    print(data_kml.head())
+    print("Step 2 complete!")
     return data_kml
 
 
-def convertBack(x, y, w, h):								# Convert from center coordinates to bounding box coordinates
+def convertBack(x, y, w, h):							# Convert from center coordinates to bounding box coordinates
     xmin = int(round(x - (w / 2)))
     xmax = int(round(x + (w / 2)))
     ymin = int(round(y - (h / 2)))
     ymax = int(round(y + (h / 2)))
     xcen = int(round((xmin+xmax)/2))
     ycen = int(round((ymin+ymax)/2))
+    print("Step 3 complete!")
     return xmin, ymin, xmax, ymax, xcen, ycen
 
 def rectContains(bbox,pt):
     cont = cv2.pointPolygonTest(bbox, (pt[0],pt[1]), False)
+    print("Step 4 complete!")
     return cont
 
 def cvOverlapcheck(parked_cars, detections, img):
@@ -140,27 +154,47 @@ def cvOverlapcheck(parked_cars, detections, img):
               #print(bbox_occ)
               break
 
-        car_detection += 1                  # Increment to the next detected car
+        car_detection += 1              # Increment to the next detected car
 
       print(list_occ)
       parked_cars.loc[:, 'Status'] = np.where(parked_cars.index.isin(list_occ), 'Occupied', 'Free')
-
+      parked_cars_updated = parked_cars
       cv2.putText(img,
                   "Total cars %s" % str(car_detection), (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 1,
-                  [0, 255, 50], 2)            # Place text to display the car count
-  return img
+                  [0, 255, 50], 2)        # Place text to display the car count
+  return img, parked_cars_updated
 
+def read_image():
+    # Get the list of Input Image Files
+    base_dir = get_base_dir()
+    image_path = base_dir + '/*docker_api/*templates/*static/*images/*Test_img/'
+    print(image_path)			#  Directory of the image folder
+    image_list = glob.glob(image_path + "*.jpg")   # Get list of Images
+    print(pd.DataFrame(image_list))
+    return image_list
 
 netMain = None
 metaMain = None
 altNames = None
 
-def YOLO(image_list):
+def YOLO():
+    #os.chdir("./darknet")
+    #os.system("pwd")
+    #print('dir changed!')
 
+    from darknet import darknet
+    print("Imported")
+    #================================================================
+    base_dir = get_base_dir()
+    image_list = read_image()
+    #=================================================================#
+    # Read parking regions file
+    parked_cars = read_regions()
+    #================================================================
     global metaMain, netMain, altNames
-    configPath = "./cfg/yolov4.cfg"
-    weightPath = "./yolov4.weights"
-    metaPath = "./cfg/coco.data"
+    configPath = "./darknet/cfg/yolov4.cfg"
+    weightPath = "./darknet/yolov4.weights"
+    metaPath = "./darknet/cfg/coco.data"
     if not os.path.exists(configPath):
         raise ValueError("Invalid config path `" +
                          os.path.abspath(configPath)+"`")
@@ -218,39 +252,47 @@ def YOLO(image_list):
         # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         # Draw occupied parking spaces
-        image = cvOverlapcheck(parked_cars, detections, image_rgb)
+        image, parked_cars_updated = cvOverlapcheck(parked_cars, detections, image_rgb)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         from cv2 import imwrite
-        imwrite( "../templates/static/images/new_output.jpg", image);
+        file2 = os.path.join(base_dir + '/docker_api/templates/static/images/new_output.jpg')
+        imwrite(file2, image);
+        print("Image saved!")
 
         # cv2.imshow('Output', image)
         cv2.waitKey(0)
         # i += 1
     cv2.destroyAllWindows()
-
-if __name__ == "__main__":
-    # Run setup steps
-    First()
     #================================================================
-    parked_cars = read_regions()
-	#================================================================
-    # Get the list of Input Image Files
-    #================================================================
-    image_path = "./templates/static/images/Test_img"			#  Directory of the image folder
-    image_list = glob.glob(image_path + "*.jpg")			#  Get list of Images
-    print(pd.DataFrame(image_list))
-    #=================================================================#
+    # Save the file with occupancy
+    post_process(parked_cars_updated)
 
-    YOLO(image_list)
+def get_base_dir():
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    print(base_dir)
+    return base_dir
 
-    filename = './data/Full_Parking.kml'
+def post_process(data):
+    base_dir = get_base_dir()
+    filename = base_dir + '/docker_api/data/Full_Parking.kml'
     data_kml = read_kml(filename)
-    final_df = pd.merge(data_kml, parked_cars, left_on=['PName'], right_on=['pname'], how='left')
+    final_df = pd.merge(data_kml, data, left_on=['PName'], right_on=['pname'], how='left')
     final_df['color'] = np.nan
     final_df['color'][final_df.Status == 'Occupied'] = "red"
     final_df['color'][final_df.Status == 'Free'] = "green"
     final_df['color'].fillna('yellow', inplace=True)
     # Setting reserved parking regions to blue color
     final_df['color'][final_df.pname.isin(['R10-S27','R1-1','R8-S29'])] = "blue"
-    final_df.to_csv('./data/Consolidated_data.csv')
+    final_df.to_csv(base_dir +'/docker_api/data/Consolidated_data.csv')
+    return "Success!"
+
+
+if __name__ == "__main__":
+    # Run setup steps
+    # First()   # to remake darknet and download the pretrained weights
+    # os.system("pwd")
+    #================================================================
+    
+    YOLO()
+    print("Success!")

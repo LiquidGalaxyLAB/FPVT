@@ -47,9 +47,3 @@ paths:
       responses:
         200:
           description: "OK"
-  /model:
-    post:
-      operationId: "detector.test"
-      responses:
-        200:
-          description: "OK"
