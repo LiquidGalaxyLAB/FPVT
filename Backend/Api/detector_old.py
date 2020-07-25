@@ -5,17 +5,15 @@
 import os
 os.system("sudo apt-get install git")
 os.system("sudo apt-get install wget")
-os.system("sudo apt-get install cv2")
+os.system("sudo apt-get install python-opencv")
 os.system("sudo apt-get install numpy")
 os.system("sudo apt-get install pickle")
-os.system("sudo apt-get install pathlib")
 os.system("sudo apt-get install glob")
-os.system("sudo apt-get install pandas")
-os.system("sudo apt-get install pykml")
+os.system("sudo apt-get install python-pandas")
+os.system("sudo pip install pykml")
 
 # Importing the required packages
 import pickle
-from pathlib import Path
 import cv2
 import numpy as np
 import git
@@ -31,20 +29,20 @@ def First():
         git.Git("./").clone("https://github.com/AlexeyAB/darknet.git")
         print('Done')
 
-    # Change makefile to have GPU nad OPENCV enabled
+    # Change makefile
     os.chdir("./darknet")
     os.system("pwd")
     print('dir changed!')
     # os.system("/bin/bash")
-    os.system("sed -i 's/OPENCV=0/OPENCV=1/' Makefile")
-    os.system("sed -i 's/GPU=0/GPU=1/' Makefile")
-    os.system("sed -i 's/CUDNN=0/CUDNN=1/' Makefile")
-    os.system("sed -i 's/CUDNN_HALF=0/CUDNN_HALF=1/' Makefile")
+    # os.system("sed -i 's/OPENCV=0/OPENCV=1/' Makefile")
+    # os.system("sed -i 's/GPU=0/GPU=1/' Makefile")
+    # os.system("sed -i 's/CUDNN=0/CUDNN=1/' Makefile")
+    # os.system("sed -i 's/CUDNN_HALF=0/CUDNN_HALF=1/' Makefile")
     os.system("sed -i 's/LIBSO=0/LIBSO=1/' Makefile")
     print('Changed makefile!')
 
     # Verify CUDA
-    os.system("usr/local/cuda/bin/nvcc - version")
+    # os.system("usr/local/cuda/bin/nvcc - version")
 
     # Make darknet
     os.system("make")
@@ -63,6 +61,7 @@ def read_regions():
     park_tags = pd.read_csv('../data/parking_regions.csv')
     parked_cars = pd.merge(pl_camera, park_tags, left_index=True, right_index=True)
     parked_cars.columns = ['polygon','pname']
+    print("Step 1 complete!")
     return parked_cars
 
 
@@ -91,20 +90,23 @@ def read_kml(filename):
     polygons_df = pd.DataFrame(polygons)
     data_kml = pd.merge(polygons_df,coord_all_df, left_index=True, right_index=True)
     data_kml.columns = ['PName','geometry']
+    print("Step 2 complete!")
     return data_kml
 
 
-def convertBack(x, y, w, h):								# Convert from center coordinates to bounding box coordinates
+def convertBack(x, y, w, h):							# Convert from center coordinates to bounding box coordinates
     xmin = int(round(x - (w / 2)))
     xmax = int(round(x + (w / 2)))
     ymin = int(round(y - (h / 2)))
     ymax = int(round(y + (h / 2)))
     xcen = int(round((xmin+xmax)/2))
     ycen = int(round((ymin+ymax)/2))
+    print("Step 3 complete!")
     return xmin, ymin, xmax, ymax, xcen, ycen
 
 def rectContains(bbox,pt):
     cont = cv2.pointPolygonTest(bbox, (pt[0],pt[1]), False)
+    print("Step 4 complete!")
     return cont
 
 def cvOverlapcheck(parked_cars, detections, img):
@@ -140,14 +142,14 @@ def cvOverlapcheck(parked_cars, detections, img):
               #print(bbox_occ)
               break
 
-        car_detection += 1                  # Increment to the next detected car
+        car_detection += 1              # Increment to the next detected car
 
       print(list_occ)
       parked_cars.loc[:, 'Status'] = np.where(parked_cars.index.isin(list_occ), 'Occupied', 'Free')
 
       cv2.putText(img,
                   "Total cars %s" % str(car_detection), (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 1,
-                  [0, 255, 50], 2)            # Place text to display the car count
+                  [0, 255, 50], 2)        # Place text to display the car count
   return img
 
 
@@ -231,18 +233,29 @@ def YOLO(image_list):
 
 if __name__ == "__main__":
     # Run setup steps
-    First()
+    # First()
+    # os.system("pwd")
+    
+    # path_new = os.path.normpath(os.getcwd() + os.sep + os.pardir)
+    # print(path_new)
+    # os.chdir(path_new)
+    # os.system("pwd")
+    # os.chdir("./darknet")
+    # os.system("pwd")
+    import darknet
+    print("Imported")
     #================================================================
     parked_cars = read_regions()
 	#================================================================
     # Get the list of Input Image Files
     #================================================================
-    image_path = "./templates/static/images/Test_img"			#  Directory of the image folder
+    image_path = "../templates/static/images/Test_img"			#  Directory of the image folder
     image_list = glob.glob(image_path + "*.jpg")			#  Get list of Images
     print(pd.DataFrame(image_list))
     #=================================================================#
 
     YOLO(image_list)
+    print("Image saved!")
 
     filename = './data/Full_Parking.kml'
     data_kml = read_kml(filename)
@@ -254,3 +267,4 @@ if __name__ == "__main__":
     # Setting reserved parking regions to blue color
     final_df['color'][final_df.pname.isin(['R10-S27','R1-1','R8-S29'])] = "blue"
     final_df.to_csv('./data/Consolidated_data.csv')
+    print("Success!")

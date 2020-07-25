@@ -1,3 +1,8 @@
+#!/usr/bin/python
+# coding: utf-8
+
+import os
+
 from flask import (
     Flask,
     render_template,
@@ -5,14 +10,18 @@ from flask import (
 )
 import connexion
 import numpy as np
-import io
+
 
 # Load the model
-import detector
+from detector import *
+#================================================================
+# Run the model
+YOLO()
 
 # Create KML file
-from liquidgalaxy import kml_generator
+from liquidgalaxy.kml_generator import *
 
+create_kml()
 
 # Create the application instance
 app = connexion.App(__name__, specification_dir='./')

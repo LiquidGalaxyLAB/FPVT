@@ -1,9 +1,0 @@
-flask
-connexion
-shapely
-opencv-python
-gitpython
-pandas
-numpy
-pykml
-wget

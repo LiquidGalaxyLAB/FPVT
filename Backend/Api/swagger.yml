@@ -13,18 +13,12 @@ basePath: "/api"
 # Paths supported by the server application
 paths:
   /signup:
-    post:
+    get:
       operationId: "signup.send"
       # tags:
         # - "SignUp"
       # summary: "The people sign up data"
       # description: "Read the list of people"
-      consumes:
-        - application/json
-      produces:
-        - application/json
-        - text/xml
-        - text/html
 
       responses:
         200:
@@ -34,7 +28,6 @@ paths:
              {
                "status": "Success"
              }
-
   /image:
     get:
       operationId: "image.showim"
@@ -47,9 +40,15 @@ paths:
       responses:
         200:
           description: "OK"
-  /model:
-    post:
-      operationId: "detector.test"
+  /info:
+    get:
+      operationId: "stats.main"
+      responses:
+        200:
+          description: "OK"
+  /kml:
+    get:
+      operationId: "show_kml.download"
       responses:
         200:
           description: "OK"
