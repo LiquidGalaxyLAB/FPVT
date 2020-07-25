@@ -289,11 +289,11 @@ def post_process(data):
     return "Success!"
 
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     # Run setup steps
     # First()   # to remake darknet and download the pretrained weights
     # os.system("pwd")
     #================================================================
     
-    YOLO()
-    print("Success!")
+    #YOLO()
+    #print("Success!")

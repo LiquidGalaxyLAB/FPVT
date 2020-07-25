@@ -40,6 +40,7 @@ paths:
       responses:
         200:
           description: "OK"
+<<<<<<< HEAD:Backend/Api/swagger.yml
   /info:
     get:
       operationId: "stats.main"
@@ -52,3 +53,5 @@ paths:
       responses:
         200:
           description: "OK"
+=======
+>>>>>>> d73b2f589494e9326c96ce8f3798a31c4d95098a:Backend/docker_api/swagger.yml

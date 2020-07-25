@@ -66,6 +66,6 @@ def get_base_dir2():
     print(base_dir)
     return base_dir
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     # Create kml file with occupancy
-    create_kml()
+    #create_kml()
