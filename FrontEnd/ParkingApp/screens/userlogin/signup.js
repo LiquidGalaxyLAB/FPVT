@@ -1,29 +1,44 @@
 // To add: handicapped question in formik.
 
 import React, { useState, Fragment } from "react";
-import { Button, Text, View, Picker, StyleSheet, Switch } from "react-native";
+import {
+  Button,
+  Text,
+  View,
+  Picker,
+  StyleSheet,
+  Switch,
+  TouchableOpacity,
+} from "react-native";
 import { globalStyles } from "../../styles/global.js";
 import Card from "../../shared/card";
 import { Formik } from "formik";
 import { TextInput, ScrollView } from "react-native-gesture-handler";
 import * as yup from "yup";
 
+import { authContext, AuthContext } from "../../components/context";
+
 const SurveySchema = yup.object({
-  name: yup.string().required().min(4),
+  username: yup.string().required().min(4),
+  password: yup.string().required().min(4),
   email: yup.string().label("Email").email().required(),
-  phone: yup.string().max(9),
   vehicletype: yup.string().required(),
 });
 
 const initialValues = {
-  name: "",
+  username: "",
+  password: "",
   email: "",
-  phone: "",
   vehicletype: "",
+  handicapped: false,
 };
 
 export default function SignUp({ ...props }) {
   const [isEnabled, setIsEnabled] = useState(true);
+  const pressHandlerSignIn = () => {
+    console.log("works");
+    props.navigation.navigate("SignIn");
+  };
   return (
     <View>
       <Formik
@@ -37,18 +52,34 @@ export default function SignUp({ ...props }) {
           <ScrollView>
             <Card>
               <View style={globalStyles.fields}>
-                <Text style={globalStyles.signup1}>Name</Text>
+                <Text style={globalStyles.signup1}>Username</Text>
                 <TextInput
                   multiline
                   mode="outlined"
                   style={globalStyles.input}
-                  placeholder="Enter name"
-                  onChangeText={props.handleChange("name")}
-                  value={props.values.name}
-                  onBlur={props.handleBlur("name")}
+                  placeholder="Enter username"
+                  onChangeText={props.handleChange("username")}
+                  value={props.values.username}
+                  onBlur={props.handleBlur("username")}
                 />
                 <Text style={globalStyles.errorText}>
-                  {props.touched.name && props.errors.name}
+                  {props.touched.username && props.errors.username}
+                </Text>
+              </View>
+
+              <View style={globalStyles.fields}>
+                <Text style={globalStyles.signup1}>Password</Text>
+                <TextInput
+                  multiline
+                  mode="outlined"
+                  style={globalStyles.input}
+                  placeholder="Enter password"
+                  onChangeText={props.handleChange("password")}
+                  value={props.values.password}
+                  onBlur={props.handleBlur("password")}
+                />
+                <Text style={globalStyles.errorText}>
+                  {props.touched.password && props.errors.password}
                 </Text>
               </View>
 
@@ -65,21 +96,6 @@ export default function SignUp({ ...props }) {
                 />
                 <Text style={globalStyles.errorText}>
                   {props.touched.email && props.errors.email}
-                </Text>
-              </View>
-
-              <View style={globalStyles.fields}>
-                <Text style={globalStyles.signup1}>Phone</Text>
-                <TextInput
-                  style={globalStyles.input}
-                  placeholder="Enter your phone number"
-                  onChangeText={props.handleChange("phone")}
-                  value={props.values.phone}
-                  keyboardType="numeric"
-                  onBlur={props.handleBlur("phone")}
-                />
-                <Text style={globalStyles.errorText}>
-                  {props.touched.phone && props.errors.phone}
                 </Text>
               </View>
 
@@ -113,8 +129,12 @@ export default function SignUp({ ...props }) {
                     trackColor={{ false: "black", true: "#62A87C" }}
                     thumbColor={isEnabled ? "white" : "ghostwhite"}
                     ios_backgroundColor="gray"
-                    onValueChange={() => setIsEnabled(!isEnabled)}
-                    value={isEnabled}
+                    value={props.values.handicapped}
+                    // onValueChange={() => setIsEnabled(!isEnabled)}
+                    onValueChange={(value) =>
+                      props.setFieldValue("handicapped", value)
+                    }
+                    // value={isEnabled}
                     style={styles.switchbox}
                   />
                   <Text style={styles.label2}>Yes</Text>
@@ -124,12 +144,12 @@ export default function SignUp({ ...props }) {
               <View style={globalStyles.buttonContainer}>
                 <Button
                   title="Reset"
-                  color="#1c376e"
+                  color="#4b788f"
                   onPress={props.handleReset}
                 />
                 <Button
                   title="Submit"
-                  color="#1c376e"
+                  color="#4b788f"
                   onPress={props.handleSubmit}
                 />
               </View>
@@ -137,6 +157,21 @@ export default function SignUp({ ...props }) {
           </ScrollView>
         )}
       </Formik>
+      <View
+        style={{
+          justifyContent: "center",
+          // backgroundColor: "white",
+          paddingBottom: 20,
+        }}
+      >
+        <TouchableOpacity onPress={pressHandlerSignIn}>
+          <View>
+            <Text style={globalStyles.ques}>
+              Already have an account? Login
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

@@ -3,18 +3,10 @@ import { createAppContainer } from "react-navigation";
 import React, { Component, useContext } from "react";
 import { View, TouchableOpacity, Text, Image, Alert } from "react-native";
 
-import HomeStack from "./homeStack";
-import AboutStack from "./aboutStack";
-
-import { AuthContext } from "../components/context";
+import SignUpStack from "./signupStack";
+import SignInStack from "./signinStack";
 
 const CustomContent = (props) => {
-  const { signOut } = React.useContext(AuthContext);
-  const pressLogo = () => {
-    Alert.alert("hey", " Blahblah ", [
-      { text: "OK", onPress: () => console.log("Test") },
-    ]);
-  };
   return (
     <View>
       <View style={{ backgroundColor: "#4b788f" }}>
@@ -33,33 +25,17 @@ const CustomContent = (props) => {
       <View>
         <DrawerItems {...props} />
       </View>
-
-      <TouchableOpacity
-        onPress={() => {
-          signOut();
-        }}
-        style={{
-          bottom: -350,
-          position: "relative",
-          width: "100%",
-          marginLeft: 10,
-        }}
-      >
-        <View>
-          <Text style={{ color: "white" }}>Logout</Text>
-        </View>
-      </TouchableOpacity>
     </View>
   );
 };
 
 const RootDrawerNavigator = createDrawerNavigator(
   {
-    Home: {
-      screen: HomeStack,
+    Login: {
+      screen: SignInStack,
     },
-    About: {
-      screen: AboutStack,
+    SignUp: {
+      screen: SignUpStack,
     },
   },
   {
@@ -74,8 +50,8 @@ const RootDrawerNavigator = createDrawerNavigator(
         marginLeft: 10,
       },
     },
-    initialRouteName: "Home",
     contentComponent: CustomContent,
+    initialRouteName: "Login",
     drawerOpenRoute: "DrawerOpen",
     drawerCloseRoute: "DrawerClose",
     drawerToggleRoute: "DrawerToggle",

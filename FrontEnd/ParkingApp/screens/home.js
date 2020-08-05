@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { globalStyles } from "../styles/global";
 import {
   Button,
@@ -18,7 +18,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Icon, registerCustomIconType } from "react-native-elements";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 registerCustomIconType("font-awesome-5", FontAwesome5);
-import SignUp from "./userlogin/signup";
+
+const infoURL = "https://myubuntu-5jsdawxgba-uc.a.run.app/api/info";
 
 export default function Home({ navigation }) {
   const pressHandler = () => {
@@ -36,6 +37,23 @@ export default function Home({ navigation }) {
       { text: "OK", onPress: () => console.log("Test") },
     ]);
   };
+
+  useEffect(() => {
+    fetch(infoURL, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        alert(JSON.stringify(responseJson));
+        // console.log(responseJson);
+        var test = responseJson;
+        console.log(test["Percentage occupied"]);
+      })
+      .catch((error) => {
+        alert(JSON.stringify(error));
+        console.error(error);
+      });
+  }, []);
 
   return (
     <ScrollView style={{ backgroundColor: "#fff" }}>
@@ -56,7 +74,7 @@ export default function Home({ navigation }) {
 
       <View style={globalStyles.container}>
         <ProgressCircle
-          percent={80}
+          percent={6.3}
           radius={80}
           borderWidth={2}
           color="#EF8354"
@@ -79,7 +97,7 @@ export default function Home({ navigation }) {
               color: "#EF8354",
             }}
           >
-            {"80%"}
+            {"6.3%"}
           </Text>
           <Text
             style={{
@@ -96,18 +114,22 @@ export default function Home({ navigation }) {
       </View>
 
       <View style={styles.dropdown}>
-        <Text style={styles.dropdowntxt}>Choose parking type</Text>
-        <Picker
-          selectedValue={selectedValue}
-          style={styles.internalPickerContainer}
-          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-          itemStyle={styles.pickerIosListItemContainer}
-          itemTextStyle={styles.pickerIosListItemText}
-        >
-          <Picker.Item label="All" value="all" />
-          <Picker.Item label="Electric" value="el" />
-          <Picker.Item label="Reserved" value="re" />
-        </Picker>
+        <Fragment>
+          <Text style={styles.dropdowntxt}>Choose parking type</Text>
+          <Picker
+            selectedValue={selectedValue}
+            style={styles.internalPickerContainer}
+            onValueChange={(itemValue, itemIndex) =>
+              setSelectedValue(itemValue)
+            }
+            itemStyle={styles.pickerIosListItemContainer}
+            itemTextStyle={styles.pickerIosListItemText}
+          >
+            <Picker.Item label="All" value="all" />
+            {/* <Picker.Item label="Electric" value="el" /> */}
+            <Picker.Item label="Reserved" value="re" />
+          </Picker>
+        </Fragment>
       </View>
 
       <View style={globalStyles.container}>
@@ -120,7 +142,7 @@ export default function Home({ navigation }) {
         </View>
       </View>
 
-      <View style={{ justifyContent: "center" }}>
+      {/* <View style={{ justifyContent: "center" }}>
         <TouchableOpacity onPress={pressHandler2}>
           <View>
             <Text style={globalStyles.ques}>
@@ -128,7 +150,7 @@ export default function Home({ navigation }) {
             </Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </ScrollView>
   );
 }

@@ -9,6 +9,18 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
   },
+  container2: {
+    flex: 1,
+    marginLeft: 2,
+    marginRight: 2,
+    marginBottom: 20,
+    marginTop: 20,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    borderWidth: 0.8,
+    borderColor: "grey",
+    borderRadius: 2,
+  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
@@ -27,6 +39,7 @@ export const globalStyles = StyleSheet.create({
     color: "#4b788f",
     lineHeight: 23,
     fontFamily: "OpenSans-Regular",
+    // textDecorationLine: "underline",
   },
   text1: {
     justifyContent: "center",
@@ -112,6 +125,6 @@ export const globalStyles = StyleSheet.create({
   picker: {
     // fontSize: 12,
     // backgroundColor: "#C8DCEF",
-    transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
+    transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }],
   },
 });
