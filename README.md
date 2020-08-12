@@ -19,7 +19,7 @@ The pretrained yolov4 model is trained from AlexeyAB's darknet repository. (http
 
 
 ### Built With
-Python3, React Native, Docker
+Python3, React Native, React.js, Docker
 
 The following tree represents the suggested directory hierarchy 
 within the "lg" user's home directory:
@@ -30,23 +30,55 @@ The following tree represents the directory hierarchy:
 ```
 /FPVT
 |-- AIModel
-|   |-- set_regions.py
 |   |-- YOLO_v4.ipynb
 |-- Backend
-|   |-- docker_api
+|   |-- RTSP_media_server_launch_README.md
+|   |-- video_footage.avi
+|   |-- video.py
+|   |-- set_regions.py
+|   |-- DockerFile
+|   |-- Api
+|   |   |-- darknet
 |   |   |-- data
 |   |      |-- regions.p
-|   |      |-- parking_Regions.csv
-|   |   |-- DockerFile
-|   |   |-- requirements.txt
-|   |   |-- swagger.yml
+|   |      |-- regions_cam1.p
+|   |      |-- regions_cam2.p
+|   |      |-- parking_regions.csv
+|   |      |-- parking_regions_cam1.csv
+|   |      |-- parking_Regions_cam2.csv
+|   |      |-- Full_Parking.kml
+|   |      |-- Consolidated_data.csv
 |   |   `-- scripts
+|   |   |-- server.py
+|   |   |-- detector_m.py
+|   |   |-- image.py
+|   |   |-- show_kml.py
+|   |   |-- stats.py
+|   |   |-- swagger.yml
 |   |   |-- liquidgalaxy
+|   |      |-- config.py
+|   |      |-- ipsettings
 |   |      |-- kml_generator.py
-|-- README.MD
+|   |      |-- kmls.txt
+|   |      |-- query.txt
+|   |      |-- lg_communication.py
+|   |      |-- Free_parking.kml
+|   |   |-- templates
+|   |      |-- home.html
+|   |      |-- static
+|   |           |-- images
+|   |               |-- output.jpg
+|   |               |-- Test_img
+|   |                   |-- image1.jpg
+|   |                   |-- image2.jpg
+|-- README.MD   
 `-- Frontend
     `-- ParkingApp
         |-- App.js
+        `-- Components/Images
+    `-- ParkingAdminTool
+        |-- src
+            |-- App.js
         `-- Components/Images
 ```
 
