@@ -11,14 +11,14 @@ https://docs.google.com/document/d/14EUbFxjIUYEIiPBmHRHfunIQHkvbDnO1fnkXOgXieRU/
 
 © Liquid Galaxy, Google Summer of Code 2020 GitHub, Inc.
 
-# Before Installation
+## Before Installation
 Please ensure that you have the following software installed on your PC/ Virtual Machine.
  - Docker
  - Python v3.6
  - Node.js
  - React, React Native for front end applications.
 
-# Installation
+## Installation
 
 ## Installing and running the backend
 ### 1. Clone the repository: 
