@@ -24,6 +24,10 @@ Please ensure that you have the following software installed on your PC/ Virtual
 ### 1. Clone the repository: 
 $ git clone https://github.com/LiquidGalaxyLAB/FPVT.git
 
+Next, download the darknet folder from the following gdrive link and add it to the Backend/Api/ folder
+https://drive.google.com/drive/folders/1fRV38RqWb_hR9w0lN0mRf_ICqN377eMB?usp=sharing
+
+
 ### 2. Launching the CCTV camera media server:
 Since we did not have access to the IP of the security cameras,a multipurpose RTSP media server that can simulate RTSP cameras, broadcast RTSP streams, webcams, and create test videos or serve video files was used. The videos of the security cameras from the scientific park in June were downloaded and uploaded to the docker container. 
 Link for the RTSP media server: https://hub.docker.com/r/ullaakut/rtspatt/
