@@ -28,19 +28,30 @@ paths:
              {
                "status": "Success"
              }
-  /image:
+  /camera1:
     get:
-      operationId: "image.showim"
+      operationId: "image.showim1"
       responses:
         200:
           description: "OK"
-  /image_encoded:
+  /camera2:
     get:
-      operationId: "image.encode_im"
+      operationId: "image.showim2"
       responses:
         200:
           description: "OK"
-<<<<<<< HEAD:Backend/Api/swagger.yml
+  /image_encoded1:
+    get:
+      operationId: "image.encode_im1"
+      responses:
+        200:
+          description: "OK"
+  /image_encoded2:
+    get:
+      operationId: "image.encode_im2"
+      responses:
+        200:
+          description: "OK"
   /info:
     get:
       operationId: "stats.main"
@@ -53,5 +64,3 @@ paths:
       responses:
         200:
           description: "OK"
-=======
->>>>>>> d73b2f589494e9326c96ce8f3798a31c4d95098a:Backend/docker_api/swagger.yml
