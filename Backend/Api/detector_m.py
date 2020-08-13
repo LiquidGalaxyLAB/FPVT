@@ -197,11 +197,11 @@ def cvOverlapcheck(parked_cars, detections, img):
 def read_image():
     # Get the list of Input Image Files
     base_dir = get_base_dir()
-    image_path1 = base_dir + '/*Api/*templates/*static/*images/*Test_img/both_1.jpg'
+    image_path1 = base_dir + '/*Api/*templates/*static/*images/*Test_img/image1.jpg'
     print(image_path1)			#  Directory of the image folder
     image_list1 = glob.glob(image_path1)   # Get list of Images + "*.jpg"
 
-    image_path2 = base_dir + '/*Api/*templates/*static/*images/*Test_img/both_2.jpg'
+    image_path2 = base_dir + '/*Api/*templates/*static/*images/*Test_img/image2.jpg'
     print(image_path2)			#  Directory of the image folder
     image_list2 = glob.glob(image_path2)   # Get list of Images
 
