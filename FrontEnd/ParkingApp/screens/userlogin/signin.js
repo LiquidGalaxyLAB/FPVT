@@ -1,22 +1,17 @@
 // To add: handicapped question in formik.
 
-import React, { useState, Fragment, useContext } from "react";
+import React from "react";
 import {
   Button,
   Text,
   View,
   StyleSheet,
   TouchableOpacity,
-  StatusBar,
   Alert,
-  Switch,
   Image,
-  ImageBackground,
 } from "react-native";
-import Feather from "react-native-vector-icons/Feather";
 
 import { globalStyles } from "../../styles/global.js";
-import Card from "../../shared/card";
 import { Formik } from "formik";
 import { TextInput, ScrollView } from "react-native-gesture-handler";
 import * as yup from "yup";

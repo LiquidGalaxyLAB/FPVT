@@ -39,7 +39,6 @@ export const globalStyles = StyleSheet.create({
     color: "#4b788f",
     lineHeight: 23,
     fontFamily: "OpenSans-Regular",
-    // textDecorationLine: "underline",
   },
   text1: {
     justifyContent: "center",

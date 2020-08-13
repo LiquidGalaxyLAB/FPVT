@@ -5,16 +5,10 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Modal,
-  Keyboard,
-  Alert,
   StyleSheet,
   Picker,
 } from "react-native";
 import ProgressCircle from "react-native-progress-circle";
-import { MaterialIcons } from "@expo/vector-icons";
 import { Icon, registerCustomIconType } from "react-native-elements";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 registerCustomIconType("font-awesome-5", FontAwesome5);
@@ -26,17 +20,13 @@ export default function Home({ navigation }) {
     navigation.navigate("ParkingView");
   };
 
-  const pressHandler2 = () => {
-    navigation.navigate("SignUp");
-  };
-
   const [selectedValue, setSelectedValue] = useState("all");
+  const [data1, setData1] = useState(null);
 
-  const pressLogo = () => {
-    Alert.alert("Todo", " Add Functionality ", [
-      { text: "OK", onPress: () => console.log("Test") },
-    ]);
-  };
+  function round(num, precision = 2) {
+    var scaled = Math.round(num + "e" + precision);
+    return Number(scaled + "e" + -precision);
+  }
 
   useEffect(() => {
     fetch(infoURL, {
@@ -44,10 +34,8 @@ export default function Home({ navigation }) {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        alert(JSON.stringify(responseJson));
-        // console.log(responseJson);
-        var test = responseJson;
-        console.log(test["Percentage occupied"]);
+        console.log(responseJson["Percentage occupied"]);
+        setData1(responseJson["Percentage occupied"]);
       })
       .catch((error) => {
         alert(JSON.stringify(error));
@@ -61,7 +49,6 @@ export default function Home({ navigation }) {
         style={{
           backgroundColor: "#4b788f",
           justifyContent: "center",
-          // alignItems: "center",
         }}
       >
         <View style={{ backgroundColor: "#4b788f" }}>
@@ -97,7 +84,7 @@ export default function Home({ navigation }) {
               color: "#EF8354",
             }}
           >
-            {"6.3%"}
+            {round(data1) + "%"}
           </Text>
           <Text
             style={{
@@ -194,7 +181,6 @@ const styles = StyleSheet.create({
   dropdown: {
     flex: 1,
     alignItems: "center",
-    // flexDirection: "row",
     justifyContent: "space-around",
     paddingLeft: 16,
   },

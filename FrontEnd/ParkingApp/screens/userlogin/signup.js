@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Switch,
   TouchableOpacity,
+  // AsyncStorage,
 } from "react-native";
 import { globalStyles } from "../../styles/global.js";
 import Card from "../../shared/card";
@@ -16,7 +17,8 @@ import { Formik } from "formik";
 import { TextInput, ScrollView } from "react-native-gesture-handler";
 import * as yup from "yup";
 
-import { authContext, AuthContext } from "../../components/context";
+// import { authContext, AuthContext } from "../../components/context";
+import Users from "./users";
 
 const SurveySchema = yup.object({
   username: yup.string().required().min(4),
@@ -39,13 +41,23 @@ export default function SignUp({ ...props }) {
     console.log("works");
     props.navigation.navigate("SignIn");
   };
+
+  const saveData = (items) => {
+    // console.log(JSON.stringify(items));
+    Users.push(items);
+    console.log(Users);
+  };
+
   return (
     <View>
       <Formik
         initialValues={initialValues} // { name: "", email: "", phone: "", vehicletype:"" }
         validationSchema={SurveySchema}
         onSubmit={(values, actions) => {
-          console.log(values);
+          // console.log(values);
+          // AsyncStorage.setItem('id', JSON.stringify(values))
+          // console.log(JSON.stringify(values));
+          saveData(values);
         }}
       >
         {(props) => (

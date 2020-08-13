@@ -1,7 +1,7 @@
 import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
 import { createAppContainer } from "react-navigation";
-import React, { Component, useContext } from "react";
-import { View, TouchableOpacity, Text, Image, Alert } from "react-native";
+import React from "react";
+import { View, Image } from "react-native";
 
 import SignUpStack from "./signupStack";
 import SignInStack from "./signinStack";

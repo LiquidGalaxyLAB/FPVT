@@ -9,7 +9,6 @@ export default function Header({ navigation, title }) {
 
   return (
     <View style={styles.header}>
-      {/* {icon for the menu} */}
       <MaterialIcons
         name="menu"
         size={28}

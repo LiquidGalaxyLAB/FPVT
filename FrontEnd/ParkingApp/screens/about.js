@@ -1,7 +1,21 @@
 import React from "react";
-import { StyleSheet, ScrollView, Text, View, Image } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 
 export default function About() {
+  const handlePressSite = () => {
+    Linking.openURL("https://github.com/LiquidGalaxyLAB/FPVT").catch(() =>
+      alert("Error")
+    );
+  };
+
   return (
     <ScrollView style={{ backgroundColor: "#fff" }}>
       <View style={{ backgroundColor: "#4b788f", marginTop: 0 }}>
@@ -22,6 +36,11 @@ export default function About() {
         work is carried out as a part of the Google Summer of Code 2020, in
         collaboration with the Liquid Galaxy Lab.
       </Text>
+      <TouchableOpacity onPress={handlePressSite}>
+        <View>
+          <Text style={styles.scode}>Click for more information</Text>
+        </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -39,5 +58,16 @@ const styles = StyleSheet.create({
     color: "#464E51",
     lineHeight: 23,
     fontFamily: "OpenSans-Regular",
+  },
+  scode: {
+    justifyContent: "center",
+    textAlign: "center",
+    fontSize: 16,
+    marginLeft: 25,
+    marginRight: 25,
+    color: "#4b788f",
+    lineHeight: 23,
+    fontFamily: "OpenSans-Regular",
+    textDecorationLine: "underline",
   },
 });

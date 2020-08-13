@@ -70,9 +70,7 @@ export default function App() {
         // setIsLoading(false);
         const userToken = String(foundUser[0].userToken);
         const userName = foundUser[0].username;
-        // if (userName == "user" && password == "pass") {
         try {
-          // userToken = "dfgdfg";
           await AsyncStorage.setItem("userToken", userToken);
         } catch (e) {
           console.log(e);
@@ -92,8 +90,8 @@ export default function App() {
         dispatch({ type: "LOGOUT" });
       },
       signUp: () => {
-        setUserToken("fgkj");
-        setIsLoading(false);
+        // setUserToken("fgkj");
+        // setIsLoading(false);
       },
     }),
     []

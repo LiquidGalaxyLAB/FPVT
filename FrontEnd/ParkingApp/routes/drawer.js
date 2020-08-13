@@ -1,6 +1,6 @@
 import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
 import { createAppContainer } from "react-navigation";
-import React, { Component, useContext } from "react";
+import React from "react";
 import { View, TouchableOpacity, Text, Image, Alert } from "react-native";
 
 import HomeStack from "./homeStack";
@@ -10,11 +10,6 @@ import { AuthContext } from "../components/context";
 
 const CustomContent = (props) => {
   const { signOut } = React.useContext(AuthContext);
-  const pressLogo = () => {
-    Alert.alert("hey", " Blahblah ", [
-      { text: "OK", onPress: () => console.log("Test") },
-    ]);
-  };
   return (
     <View>
       <View style={{ backgroundColor: "#4b788f" }}>
