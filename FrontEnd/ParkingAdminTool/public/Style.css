@@ -8,11 +8,18 @@
 .menu-ul li {
     display: inline-block;
     margin-left:10px; 
-    margin-right: 20px;
+    margin-right: 15px;
     color: white;
-    font-size: 24px;
+    font-size: 20px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-decoration-color: white
+}
+.link {
+    /* display: inline-block; */
+    /* margin-left:10px;  */
+    /* margin-right: 20px; */
+    color: black;
+    font-size: 20px;
 }
 a, a:link, a:visited  {
     color: white;
@@ -25,30 +32,59 @@ a, a:hover, a:active, a:focus {
 .logo {
     width: 100px;
 }
+.logo2 {
+    width: 50px;
+}
 .image {
-    width: 250px;
+    width: 150px;
+}
+.image2 {
+    width: 70px;
+    margin: 10px;
 }
 .Header {
     background-color: #4b788f ;
     height: 90px;
     padding: 5px;
 }
+.abouttext {
+    font-size: 16px;
+    color:grey;
+    margin-left: 15px;
+    padding-top: 25px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.updatestats {
+    font-size: 16px;
+    color:green;
+    margin-left: 20px;
+    padding-top: 25px;
+    display: flex;
+    flex-direction: column;
+}
 .abt {
     align-items: center;
     padding: 15px;
     margin: 25px;
     display: flex;
-    justify-content: center;
     font-size: 22px;
-    display: flex;
     flex-direction: column;
-    margin-bottom: 50px ;
+    margin-bottom: 20px ;
 
 }
-.stat {
-    margin: 20px;
+.mainlayout {
+    margin-left: 15px;
+    margin-top: 10px;
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
+}
+.mainlayout2 {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
     justify-content: flex-start;
 }
 .stat1 {

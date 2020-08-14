@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import logo from "./FPVT.png";
 import { Link } from "react-router-dom";
 
@@ -11,7 +11,7 @@ function Header() {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/about">Sign In</Link>
+          <Link to="/about">About</Link>
         </li>
       </ul>
     </div>
