@@ -64,6 +64,10 @@ def read_regions():
     print(file1)
     file2 = os.path.join(base_dir + '/Api/data/regions_cam2.p')
     print(file2)
+    file3 = os.path.join(base_dir + '/Api/data/regions_m1.p')
+    print(file3)
+    file4 = os.path.join(base_dir + '/Api/data/regions_m2.p')
+    print(file4)
 
 
     with open(file1, 'rb') as f1:
@@ -79,6 +83,19 @@ def read_regions():
     pl_camera2 = pd.Series(parked_car_boxes2).to_frame()
     pl_camera2.drop([72], inplace=True)
 
+    with open(file3, 'rb') as f3:
+        parked_car_boxes3 = pickle.load(f3)
+    print(parked_car_boxes3[0])
+    #--use
+    pl_camera3 = pd.Series(parked_car_boxes3).to_frame()
+
+    with open(file4, 'rb') as f4:
+        parked_car_boxes4 = pickle.load(f4)
+    print(parked_car_boxes4[0])
+    #--use
+    pl_camera4 = pd.Series(parked_car_boxes4).to_frame()
+
+
     # read parking region ids
     file_cam1 = os.path.join(base_dir + '/Api/data/parking_regions_cam1.csv')
     print(file_cam1)
@@ -90,6 +107,16 @@ def read_regions():
     park_tags2 = pd.read_csv(file_cam2)
     print(park_tags2.head())
     
+    file_cam3 = os.path.join(base_dir + '/Api/data/magical_regions1.csv')
+    print(file_cam3)
+    park_tags3 = pd.read_csv(file_cam3)
+    print(park_tags3.head())
+
+    file_cam4 = os.path.join(base_dir + '/Api/data/magical_regions2.csv')
+    print(file_cam4)
+    park_tags4 = pd.read_csv(file_cam4)
+    print(park_tags4.head())
+
     # Merge the regions with ids
     parked_cars1 = pd.merge(pl_camera1, park_tags1, left_index=True, right_index=True)
     parked_cars1.columns = ['polygon','pname']
@@ -99,11 +126,25 @@ def read_regions():
     parked_cars2.columns = ['polygon','pname']
     print(parked_cars2.head())
 
-    parked_cars = parked_cars1.append(parked_cars2, ignore_index = True)
+    parked_cars3 = pd.merge(pl_camera3, park_tags3, left_index=True, right_index=True)
+    parked_cars3.columns = ['polygon','pname']
+    print(parked_cars3.head())
+
+    parked_cars4 = pd.merge(pl_camera4, park_tags4, left_index=True, right_index=True)
+    parked_cars4.columns = ['polygon','pname']
+    print(parked_cars4.head())
+
+    parked_cars_main = parked_cars1.append(parked_cars2, ignore_index = True)
+    print(len(parked_cars_main))
+
+    parked_cars_magical = parked_cars3.append(parked_cars4, ignore_index = True)
+    print(len(parked_cars_magical))
+
+    parked_cars = parked_cars_main.append(parked_cars_magical, ignore_index = True)
     print(len(parked_cars))
 
     print("Step 1 complete!")
-    return parked_cars, parked_cars1, parked_cars2
+    return parked_cars, parked_cars1, parked_cars2, parked_cars3, parked_cars4
 
 
 def read_kml(filename):
@@ -205,9 +246,19 @@ def read_image():
     print(image_path2)			#  Directory of the image folder
     image_list2 = glob.glob(image_path2)   # Get list of Images
 
+    image_path3 = base_dir + '/*Api/*templates/*static/*images/*Test_img/magical_1.jpg'
+    print(image_path3)			#  Directory of the image folder
+    image_list3 = glob.glob(image_path3)   # Get list of Images
+
+    image_path4 = base_dir + '/*Api/*templates/*static/*images/*Test_img/magical_2.jpg'
+    print(image_path4)			#  Directory of the image folder
+    image_list4 = glob.glob(image_path4)   # Get list of Images
+
     print(pd.DataFrame(image_list1))
     print(pd.DataFrame(image_list2))
-    return image_list1, image_list2
+    print(pd.DataFrame(image_list3))
+    print(pd.DataFrame(image_list4))
+    return image_list1, image_list2, image_list3, image_list4
 
 netMain = None
 metaMain = None
@@ -222,10 +273,10 @@ def YOLO():
     print("Imported")
     #================================================================
     base_dir = get_base_dir()
-    image_list1, image_list2 = read_image()
+    image_list1, image_list2, image_list3, image_list4 = read_image()
     #=================================================================#
     # Read parking regions file
-    parked_cars, parked_cars1, parked_cars2 = read_regions()
+    parked_cars, parked_cars1, parked_cars2, parked_cars3, parked_cars4 = read_regions()
     #================================================================
     global metaMain, netMain, altNames
     configPath = "./darknet/cfg/yolov4.cfg"
@@ -316,9 +367,6 @@ def YOLO():
         darknet.copy_image_from_bytes(darknet_image, image_rgb.tobytes())
 
         detections = darknet.detect_image(netMain, metaMain, darknet_image, thresh=0.25)
-        # Print detections
-        # image = cvDrawBoxesonCars(detections, image_rgb)
-        # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         # Draw occupied parking spaces
         image, parked_cars_updated2 = cvOverlapcheck(parked_cars2, detections, image_rgb)
@@ -329,7 +377,64 @@ def YOLO():
         imwrite(file_out2, image);
         print("Image 2 saved!")
 
-    parked_cars_updated = parked_cars_updated1.append(parked_cars_updated2, ignore_index = True)
+	#------------------Repeat for the first magical camera
+    for i in range(len(image_list3)):
+        image = cv2.imread(image_list3[i])
+        width = image.shape[1]
+        height = image.shape[0]
+
+        # Create an image we reuse for each detect
+        darknet_image = darknet.make_image(width, height, 3)
+
+        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image_rgb = cv2.resize(image_rgb,
+                                       (width, height),
+                                       interpolation=cv2.INTER_LINEAR)
+
+        darknet.copy_image_from_bytes(darknet_image, image_rgb.tobytes())
+
+        detections = darknet.detect_image(netMain, metaMain, darknet_image, thresh=0.25)
+
+        # Draw occupied parking spaces
+        image, parked_cars_updated3 = cvOverlapcheck(parked_cars3, detections, image_rgb)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        from cv2 import imwrite
+        file_out3 = os.path.join(base_dir + '/Api/templates/static/images/new_output3.jpg')
+        imwrite(file_out3, image);
+        print("Image 3 saved!")
+
+	#------------------Repeat for the second magical camera
+    for i in range(len(image_list4)):
+        image = cv2.imread(image_list4[i])
+        width = image.shape[1]
+        height = image.shape[0]
+
+        # Create an image we reuse for each detect
+        darknet_image = darknet.make_image(width, height, 3)
+
+        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image_rgb = cv2.resize(image_rgb,
+                                       (width, height),
+                                       interpolation=cv2.INTER_LINEAR)
+
+        darknet.copy_image_from_bytes(darknet_image, image_rgb.tobytes())
+
+        detections = darknet.detect_image(netMain, metaMain, darknet_image, thresh=0.25)
+
+        # Draw occupied parking spaces
+        image, parked_cars_updated4 = cvOverlapcheck(parked_cars4, detections, image_rgb)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        from cv2 import imwrite
+        file_out4 = os.path.join(base_dir + '/Api/templates/static/images/new_output4.jpg')
+        imwrite(file_out4, image);
+        print("Image 4 saved!")
+
+
+    parked_cars_updated_main = parked_cars_updated1.append(parked_cars_updated2, ignore_index = True)
+    parked_cars_updated_magical = parked_cars_updated3.append(parked_cars_updated4, ignore_index = True)
+    parked_cars_updated = parked_cars_updated_main.append(parked_cars_updated_magical, ignore_index = True)
         # cv2.imshow('Output', image)
         #cv2.waitKey(0)
         # i += 1
@@ -346,15 +451,19 @@ def get_base_dir():
 
 def post_process(data):
     base_dir = get_base_dir()
-    filename = base_dir + '/Api/data/Full_Parking.kml'
-    data_kml = read_kml(filename)
+    filename_a = base_dir + '/Api/data/Full_Parking.kml'
+    filename_b = base_dir + '/Api/data/Magical.kml'
+    data_kml_a = read_kml(filename_a)
+    data_kml_b = read_kml(filename_b)
+    data_kml = data_kml_a.append(data_kml_b, ignore_index = True)
+    
     final_df = pd.merge(data_kml, data, left_on=['PName'], right_on=['pname'], how='left')
     final_df['color'] = np.nan
     final_df['color'][final_df.Status == 'Occupied'] = "red"
     final_df['color'][final_df.Status == 'Free'] = "green"
     final_df['color'].fillna('yellow', inplace=True)
     # Setting reserved parking regions to blue color
-    final_df['color'][final_df.pname.isin(['R10-S27','R1-1','R8-S29'])] = "blue"
+    #final_df['color'][final_df.pname.isin(['R10-S27','R1-1','R8-S29'])] = "blue"
     final_df.to_csv(base_dir +'/Api/data/Consolidated_data.csv')
     return "Success!"
 

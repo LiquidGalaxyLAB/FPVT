@@ -1,0 +1,40 @@
+version: '2.0'
+services:
+  
+  server:
+    restart: always
+    image: myubuntu
+    container_name: myubuntu
+    ports:
+      - "5000:5000"
+    networks:
+      gsoc:
+        ipv4_address: 172.18.1.3
+
+  video-server:
+    restart: always
+    container_name: video-server
+    image: ullaakut/rtspatt
+    hostname: video-server
+    ports:
+      - '18554:18554'
+    volumes:
+      - /home/liquid/FPVT/Backend:/tmp
+    environment:
+      - RTSP_FRAMERATE=1
+      - RTSP_ADDRESS=0.0.0.0
+      - RSTP_PORT=18554
+      - INPUT="/tmp/video_footage.avi"
+    networks:
+      gsoc:
+        ipv4_address: 172.18.1.4
+
+networks:
+  gsoc:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.1.0/24

@@ -30,25 +30,28 @@ paths:
              }
   /camera1:
     get:
-      operationId: "image.showim1"
+      operationId: "image.showim_main1"
       responses:
         200:
           description: "OK"
+
   /camera2:
     get:
-      operationId: "image.showim2"
+      operationId: "image.showim_main2"
       responses:
         200:
           description: "OK"
-  /image_encoded1:
+
+  /camera_mag1:
     get:
-      operationId: "image.encode_im1"
+      operationId: "image.showim_mag1"
       responses:
         200:
           description: "OK"
-  /image_encoded2:
+
+  /camera_mag2:
     get:
-      operationId: "image.encode_im2"
+      operationId: "image.showim_mag2"
       responses:
         200:
           description: "OK"
@@ -64,3 +67,5 @@ paths:
       responses:
         200:
           description: "OK"
+
+

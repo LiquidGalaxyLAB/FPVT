@@ -7,7 +7,11 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 const percentage = 91.8;
 
 // var proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const infoURL = "http://0.0.0.0:5000/api/info";
+const infoURL = "http://localhost:5000/api/info";
+const imageURL = "http://localhost:5000/api/camera1";
+const image2URL = "http://localhost:5000/api/camera2";
+const image3URL = "http://localhost:5000/api/camera_mag1";
+const image4URL = "http://localhost:5000/api/camera_mag2";
 
 export default function Home() {
   const stats = [
@@ -20,6 +24,7 @@ export default function Home() {
     { statistic: "Percentage occupied:", value: "6.289" },
     { statistic: "Reserved spots:", value: "3" },
   ];
+  console.log(stats)
 
   const renderStat = (stat, index) => {
     return (
@@ -43,8 +48,8 @@ export default function Home() {
         // var test = responseJson;
         // console.table(responseJson);
         console.log(responseJson);
-        setData(responseJson);
-        return responseJson;
+        // setData(responseJson);
+        // return responseJson;
       })
       .catch((error) => {
         alert(JSON.stringify(error));
@@ -54,6 +59,27 @@ export default function Home() {
   return (
     // <h1>Parking Admin Tool</h1>
     <div className="mainlayout">
+      {/* <img
+        src={{
+          uri: imageURL,
+          method: "GET",
+          headers: {
+            Pragma: "no-cache",
+          },
+          body: "Your Body goes here",
+        }}
+        alt="img" 
+        loading="lazy"
+        width="1100"
+        style={{
+          // flex: 1,
+          alignSelf: "center",
+          width: 1100,
+          resizeMode: "contain",
+          marginTop: 15,
+          marginBottom: 15,
+        }}
+      /> */}
       <img src={camoutput} alt="img" loading="lazy" width="1100" />
       <div className="abouttext">
         <div
@@ -118,7 +144,7 @@ export default function Home() {
           }}
           // onClick={() => setClicked(true)}
         >
-          Camera 1
+          Main Camera 1
         </button>
         <button
           style={{
@@ -132,7 +158,7 @@ export default function Home() {
           }}
           // onClick={() => setClicked(true)}
         >
-          Camera 2
+          Main Camera 2
         </button>
         <button
           style={{
@@ -146,7 +172,7 @@ export default function Home() {
           }}
           // onClick={() => setClicked(true)}
         >
-          Camera 3
+          Magical Camera 1,2
         </button>
         <button
           style={{

@@ -56,7 +56,7 @@ def pre_process():
     test = test.replace('\t','', regex=True)
 
     test = test.replace(' ',',', regex=True)
-    test.drop([352], inplace=True)
+    #test.drop([354], inplace=True)
     print("main file read!")
     print(test.head())
     return test
