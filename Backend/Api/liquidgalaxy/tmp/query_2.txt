@@ -1,0 +1,1 @@
+flytoview=<LookAt><longitude>0.6065939099961359</longitude><latitude>41.60572107949841</latitude><altitude>196.8565658700859</altitude><heading>90</heading><tilt>52.27435395949843</tilt><gx:fovy>35</gx:fovy><range>230.5098708774676</range><altitudeMode>absolute</altitudeMode></LookAt>

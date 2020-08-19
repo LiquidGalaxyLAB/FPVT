@@ -63,7 +63,13 @@ paths:
           description: "OK"
   /kml:
     get:
-      operationId: "show_kml.download"
+      operationId: "show_kml.send_kml_orbit_files"
+      responses:
+        200:
+          description: "OK"
+  /kml_mag:
+    get:
+      operationId: "show_kml.send_mag_kml_orbit_files"
       responses:
         200:
           description: "OK"

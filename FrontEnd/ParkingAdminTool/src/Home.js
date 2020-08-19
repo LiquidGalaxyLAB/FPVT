@@ -1,30 +1,22 @@
 import React, { useEffect, useState } from "react";
-import camoutput from "./new_output.jpg";
 import "./App.css";
 import * as ReactBootStrap from "react-bootstrap";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 
-const percentage = 91.8;
 
-// var proxyUrl = "https://cors-anywhere.herokuapp.com/";
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; 
+var yyyy = today.getFullYear();
+var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
 const infoURL = "http://localhost:5000/api/info";
-const imageURL = "http://localhost:5000/api/camera1";
-const image2URL = "http://localhost:5000/api/camera2";
-const image3URL = "http://localhost:5000/api/camera_mag1";
-const image4URL = "http://localhost:5000/api/camera_mag2";
+const kmlURL = "http://localhost:5000/api/kml";
+const kml2URL = "http://localhost:5000/api/kml_mag";
+const imageURL = ["http://localhost:5000/api/camera1","http://localhost:5000/api/camera2", "http://localhost:5000/api/camera_mag1","http://localhost:5000/api/camera_mag2"];
 
 export default function Home() {
-  const stats = [
-    { statistic: "Last refresh:", value: "2020-07-25 17:28:48" },
-    { statistic: "Total capacity:", value: "353" },
-    { statistic: "Number in camera view:", value: "159" },
-    { statistic: "Free spots:", value: "146" },
-    { statistic: "Occupied spots:", value: "10" },
-    { statistic: "Percentage Free:", value: "91.823" },
-    { statistic: "Percentage occupied:", value: "6.289" },
-    { statistic: "Reserved spots:", value: "3" },
-  ];
-  console.log(stats)
+  const [camimage, setCamImage] = useState(imageURL[1]);
 
   const renderStat = (stat, index) => {
     return (
@@ -35,52 +27,90 @@ export default function Home() {
     );
   };
 
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    fetch(infoURL, {
-      // proxyUrl + inforURL
+  const [data1, setData1] = useState(null);
+  const [data2, setData2] = useState(null);
+  const [data3, setData3] = useState(null);
+  const [data4, setData4] = useState(null);
+  const [data5, setData5] = useState(null);
+  const [data6, setData6] = useState(null);
+  const [data7, setData7] = useState(null);
+
+  function fetchKmlAPI() {
+    // param is a highlighted word from the user before it clicked the button
+    return fetch(kmlURL, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        alert(JSON.stringify(responseJson));
-        // // console.log(responseJson);
-        // var test = responseJson;
-        // console.table(responseJson);
+        alert("Operation successful!:"+JSON.stringify(responseJson));
         console.log(responseJson);
-        // setData(responseJson);
-        // return responseJson;
       })
       .catch((error) => {
-        alert(JSON.stringify(error));
+        alert("Operation successful!:"+JSON.stringify(error));
         console.error(error);
       });
+  };
+
+  function fetchKml2API() {
+    // param is a highlighted word from the user before it clicked the button
+    return fetch(kml2URL, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        alert("Operation successful!:"+JSON.stringify(responseJson));
+        console.log(responseJson);
+      })
+      .catch((error) => {
+        alert("Operation successful!:"+JSON.stringify(error));
+        console.error(error);
+      });
+  };
+  
+
+  useEffect(() => {
+    fetch(infoURL, {
+      method: "GET",
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      alert(JSON.stringify(responseJson));
+      console.log(responseJson);
+      setData1(responseJson["Capacity"]);
+      setData2(responseJson["Number in camera view"]);
+      setData3(responseJson["Free spots"]);
+      setData4(responseJson["Occupied spots"]);
+      setData5(responseJson["Percentage free"]);
+      setData6(responseJson["Percentage occupied"]);
+      setData7(responseJson["Reserved spots"]);
+
+      // alert(JSON.stringify(data));
+      // return responseJson;
+    })
+    .catch((error) => {
+      alert(JSON.stringify(error));
+      console.error(error);
+    });
   }, []);
+
+  const stats = [
+    { statistic: "Last refresh:", value: mm+'-'+dd+'-'+yyyy+' '+time },
+    { statistic: "Total capacity:", value: data1 },
+    { statistic: "Number in camera view:", value: data2 },
+    { statistic: "Free spots:", value: data3 },
+    { statistic: "Occupied spots:", value: data4 },
+    { statistic: "Percentage Free:", value: Math.round(data5 * 100) / 100 },
+    { statistic: "Percentage occupied:", value: Math.round(data6 * 100) / 100 },
+    { statistic: "Reserved spots:", value: data7 },
+  ];
   return (
     // <h1>Parking Admin Tool</h1>
     <div className="mainlayout">
-      {/* <img
-        src={{
-          uri: imageURL,
-          method: "GET",
-          headers: {
-            Pragma: "no-cache",
-          },
-          body: "Your Body goes here",
-        }}
-        alt="img" 
-        loading="lazy"
-        width="1100"
-        style={{
-          // flex: 1,
-          alignSelf: "center",
-          width: 1100,
-          resizeMode: "contain",
-          marginTop: 15,
-          marginBottom: 15,
-        }}
-      /> */}
-      <img src={camoutput} alt="img" loading="lazy" width="1100" />
+      <img
+        src={camimage}
+        alt='img'
+        width='75%'
+      />
       <div className="abouttext">
         <div
           style={{
@@ -92,11 +122,11 @@ export default function Home() {
         >
           <CircularProgressbarWithChildren
             strokeWidth={5}
-            value={percentage}
+            value={data5}
             styles={{
               path: {
                 // Path color
-                stroke: `rgba(0, 128, 0, ${percentage / 100})`,
+                stroke: `rgba(0, 128, 0, ${data5 / 100})`,
                 // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
                 strokeLinecap: "butt",
                 // Customize transition animation
@@ -117,7 +147,7 @@ export default function Home() {
             }}
           >
             <div style={{ marginLeft: 5, fontSize: 14, marginTop: -5 }}>
-              <strong>{percentage}</strong> %
+              <strong>{Math.round(data5 * 100) / 100}</strong> %
             </div>
           </CircularProgressbarWithChildren>
         </div>
@@ -137,12 +167,12 @@ export default function Home() {
             background: "#061A40",
             marginLeft: "15px",
             borderRadius: "3px",
-            marginTop: "25px",
+            marginTop: "15px",
             color: "white",
             borderColor: "grey",
             padding: "5px",
           }}
-          // onClick={() => setClicked(true)}
+          onClick={() => setCamImage(imageURL[0])}
         >
           Main Camera 1
         </button>
@@ -151,12 +181,12 @@ export default function Home() {
             background: "#061A40",
             marginLeft: "15px",
             borderRadius: "3px",
-            marginTop: "25px",
+            marginTop: "15px",
             color: "white",
             borderColor: "grey",
             padding: "5px",
           }}
-          // onClick={() => setClicked(true)}
+          onClick={() => setCamImage(imageURL[1])}
         >
           Main Camera 2
         </button>
@@ -165,14 +195,28 @@ export default function Home() {
             background: "#061A40",
             marginLeft: "15px",
             borderRadius: "3px",
-            marginTop: "25px",
+            marginTop: "15px",
             color: "white",
             borderColor: "grey",
             padding: "5px",
           }}
-          // onClick={() => setClicked(true)}
+          onClick={() => setCamImage(imageURL[2])}
         >
-          Magical Camera 1,2
+          Magical Camera 1
+        </button>
+        <button
+          style={{
+            background: "#061A40",
+            marginLeft: "15px",
+            borderRadius: "3px",
+            marginTop: "15px",
+            color: "white",
+            borderColor: "grey",
+            padding: "5px",
+          }}
+          onClick={() => setCamImage(imageURL[3])}
+        >
+          Magical Camera 2
         </button>
         <button
           style={{
@@ -184,13 +228,26 @@ export default function Home() {
             borderColor: "grey",
             padding: "5px",
           }}
-          // onClick={() => setClicked(true)}
+          onClick={fetchKmlAPI}
         >
-          Orbit
+          Orbit Parking 1
+        </button>
+        <button
+          style={{
+            background: "#061A40",
+            marginLeft: "15px",
+            borderRadius: "3px",
+            marginTop: "25px",
+            color: "white",
+            borderColor: "grey",
+            padding: "5px",
+          }}
+          onClick={fetchKml2API}
+        >
+          Orbit Parking 2
         </button>
       </div>
 
-      <div>{data}</div>
     </div>
   );
 }
