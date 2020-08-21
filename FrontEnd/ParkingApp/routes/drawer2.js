@@ -5,6 +5,7 @@ import { View, Image } from "react-native";
 
 import SignUpStack from "./signupStack";
 import SignInStack from "./signinStack";
+// import FillIpStack from "./fillIpStack";
 
 const CustomContent = (props) => {
   return (
@@ -31,6 +32,9 @@ const CustomContent = (props) => {
 
 const RootDrawerNavigator = createDrawerNavigator(
   {
+    // ServerIP: {
+    //   screen: FillIpStack,
+    // },
     Login: {
       screen: SignInStack,
     },

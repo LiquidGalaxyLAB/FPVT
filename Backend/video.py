@@ -10,8 +10,8 @@ a = 1
 while True:
     ret, frame = camera.read()
 
-    # print(ret)
-    # print(frame)
+    print(ret)
+    print(frame)
     cv2.imwrite(f"./Api/templates/static/images/Test_img/image1.jpg", frame)
     cv2.imwrite(f"./Api/templates/static/images/Test_img/image2.jpg", frame)
     time.sleep(120)

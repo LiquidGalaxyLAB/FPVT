@@ -5,6 +5,7 @@ import { View, TouchableOpacity, Text, Image, Alert } from "react-native";
 
 import HomeStack from "./homeStack";
 import AboutStack from "./aboutStack";
+import FillIpStack from "./fillIpStack";
 
 import { AuthContext } from "../components/context";
 
@@ -50,6 +51,9 @@ const CustomContent = (props) => {
 
 const RootDrawerNavigator = createDrawerNavigator(
   {
+    ServerIP: {
+      screen: FillIpStack,
+    },
     Home: {
       screen: HomeStack,
     },
@@ -69,7 +73,7 @@ const RootDrawerNavigator = createDrawerNavigator(
         marginLeft: 10,
       },
     },
-    initialRouteName: "Home",
+    initialRouteName: "ServerIP",
     contentComponent: CustomContent,
     drawerOpenRoute: "DrawerOpen",
     drawerCloseRoute: "DrawerClose",

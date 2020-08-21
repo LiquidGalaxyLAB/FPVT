@@ -45,7 +45,7 @@ export default function SignUp({ ...props }) {
   const saveData = (items) => {
     // console.log(JSON.stringify(items));
     Users.push(items);
-    console.log(Users);
+    console.log(Users[0]);
   };
 
   return (

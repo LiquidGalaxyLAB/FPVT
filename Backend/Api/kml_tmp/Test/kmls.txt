@@ -1,0 +1,2 @@
+http://10.160.67.38:5000/get-data/kml/Free_parking.kml
+http://10.160.67.38:5000/get-data/kml/magical_parking_tour.kml

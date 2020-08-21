@@ -1,5 +1,3 @@
-// To add: handicapped question in formik.
-
 import React from "react";
 import {
   Button,
@@ -21,7 +19,7 @@ import Users from "./users";
 import { AuthContext } from "../../components/context";
 
 const SurveySchema = yup.object({
-  username: yup.string().email().required(),
+  username: yup.string().required(),
   password: yup.string().required().min(4),
 });
 
@@ -31,8 +29,15 @@ const initialValues = {
 };
 
 export default function SignIn({ ...props }) {
+  // const IP = props.navigation.getParam("ip", " ");
+  // const PORT = props.navigation.getParam("port", " ");
+
+  // let data = { ip: IP, port: PORT };
+
   const pressHandlermain = () => {
-    props.navigation.navigate("Home");
+    console.log("Signin Successful!");
+    props.navigation.push("Home"); //,data
+    // Alert.alert("", JSON.stringify(props.navigation.state.params));
   };
   const pressHandler2 = () => {
     console.log("works");
@@ -72,11 +77,14 @@ export default function SignIn({ ...props }) {
           }}
         />
       </View>
+      {/* <Text>
+        Server IP: {IP}:{PORT}
+      </Text> */}
       <View style={{ backgroundColor: "white" }}>
         <Formik
-          initialValues={initialValues} // { name: "", email: "", phone: "", vehicletype:"" }
+          initialValues={initialValues}
           validationSchema={SurveySchema}
-          onSubmit={(values, actions) => {
+          onSubmit={(values) => {
             console.log(values);
           }}
         >
@@ -99,7 +107,7 @@ export default function SignIn({ ...props }) {
                     placeholder="Enter email ID"
                     onChangeText={props.handleChange("username")}
                     value={props.values.username}
-                    onBlur={props.handleBlur("usename")}
+                    onBlur={props.handleBlur("username")}
                   />
                   <Text style={globalStyles.errorText}>
                     {props.touched.username && props.errors.username}
@@ -132,6 +140,7 @@ export default function SignIn({ ...props }) {
                           props.values.username,
                           props.values.password
                         );
+                        pressHandlermain();
                       }} // props.handleSubmit, pressHandlermain
                     />
                   </View>

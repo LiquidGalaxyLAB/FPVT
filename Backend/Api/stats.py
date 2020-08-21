@@ -4,6 +4,7 @@ import pandas as pd
 from flask import jsonify
 import json
 import time
+from PIL import Image, ImageDraw,ImageFont
 
 
 def main():
@@ -33,4 +34,27 @@ def main():
     print(dict_stats)
     #print(json.dumps(dict_stats, indent=4))
     return dict_stats
+
+def save_stats_as_img(dict_stats):
+    img = Image.new('RGB', (1100, 1400), color = 'white')
+
+    info = '\n'+'PARKING LOT OCCUPANCY STATISTICS'+'\n'
+    info += '__________________________________'+'\n\n\n'
+    info += 'TIMESTAMP:'+f'{dict_stats["Last refresh"]}'+'\n\n'
+    info += 'CAPACITY:'+f'{dict_stats["Capacity"]}'+'\n\n'
+    info += 'NUMBER IN CAMERA VIEW:'+f'{dict_stats["Number in camera view"]}'+'\n\n'
+    info += 'FREE SPOTS:'+f'{dict_stats["Free spots"]}'+'\n\n'
+    info += 'OCCUPIED SPOTS:'+f'{dict_stats["Occupied spots"]}'+'\n\n'
+    info += 'RESERVED SPOTS:'+f'{dict_stats["Reserved spots"]}'+'\n\n'
+    info += 'PERCENTAGE FREE:'+f'{dict_stats["Percentage free"]}'+'\n\n'
+    info += 'PERCENTAGE OCCUPIED:'+f'{dict_stats["Percentage occupied"]}'+'\n\n'
+    print(info)
+
+    d = ImageDraw.Draw(img)
+    #font = ImageFont.truetype('Pillow/Tests/fonts/FreeMono.ttf', 40)
+    d.text((70,70), info, fill=(0,0,0)) #font=font
+    img.save('./static/stats/info1.png')
+
+dict_stats = main()
+save_stats_as_img(dict_stats)
 

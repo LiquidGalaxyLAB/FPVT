@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import * as ReactBootStrap from "react-bootstrap";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+require('dotenv').config()
 
 
 var today = new Date();
@@ -10,10 +11,11 @@ var mm = today.getMonth()+1;
 var yyyy = today.getFullYear();
 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-const infoURL = "http://localhost:5000/api/info";
-const kmlURL = "http://localhost:5000/api/kml";
-const kml2URL = "http://localhost:5000/api/kml_mag";
-const imageURL = ["http://localhost:5000/api/camera1","http://localhost:5000/api/camera2", "http://localhost:5000/api/camera_mag1","http://localhost:5000/api/camera_mag2"];
+// alert(JSON.stringify(process.env.REACT_APP_SERVER_IP));
+const infoURL = process.env.REACT_APP_SERVER_IP+"/api/info";
+const kmlURL = process.env.REACT_APP_SERVER_IP+"/api/orbit_main" //"http://10.160.67.38:5000/api/kml";
+const kml2URL = process.env.REACT_APP_SERVER_IP+"/api/orbit_mag" //"http://10.160.67.38:5000/api/kml_mag";
+const imageURL = [process.env.REACT_APP_SERVER_IP+"/api/camera1",process.env.REACT_APP_SERVER_IP+"/api/camera2", process.env.REACT_APP_SERVER_IP+"/api/camera_mag1",process.env.REACT_APP_SERVER_IP+"/api/camera_mag2"];
 
 export default function Home() {
   const [camimage, setCamImage] = useState(imageURL[1]);

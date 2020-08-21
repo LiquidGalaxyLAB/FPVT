@@ -61,15 +61,15 @@ paths:
       responses:
         200:
           description: "OK"
-  /kml:
+  /orbit_main:
     get:
-      operationId: "show_kml.send_kml_orbit_files"
+      operationId: "show_kml.send_main_file_orbit1"
       responses:
         200:
           description: "OK"
-  /kml_mag:
+  /orbit_mag:
     get:
-      operationId: "show_kml.send_mag_kml_orbit_files"
+      operationId: "show_kml.send_main_file_orbit2"
       responses:
         200:
           description: "OK"

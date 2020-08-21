@@ -1,0 +1,39 @@
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+	<name>Info</name>
+	<Placemark>
+	<ExtendedData>
+	<Data name="Occupancy Statictics">
+	<value></value>
+	</Data>
+	<Data name="Timestamp">
+	<value>2020-08-20 11:00:12</value>
+	</Data>
+	<Data name="Capacity">
+	<value>489</value>
+	</Data>
+	<Data name="Number in camera view">
+	<value>215</value>
+	</Data>
+	<Data name="Free spots">
+	<value>184</value>
+	</Data>
+	<Data name="Occupied spots">
+	<value>28</value>
+	</Data>
+	<Data name="Reserved spots">
+	<value>3</value>
+	</Data>
+	<Data name="Percentage free">
+	<value>85.5813953488372</value>
+	</Data>
+	<Data name="Percentage occupied">
+	<value>13.023255813953488</value>
+	</Data>
+	</ExtendedData>
+	<Point>
+	<coordinates>0.6065939099961359,41.60572107949841</coordinates>
+	</Point>
+	</Placemark>
+</Document>
+</kml>

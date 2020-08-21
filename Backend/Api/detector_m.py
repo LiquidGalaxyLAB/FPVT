@@ -463,7 +463,7 @@ def post_process(data):
     final_df['color'][final_df.Status == 'Free'] = "green"
     final_df['color'].fillna('yellow', inplace=True)
     # Setting reserved parking regions to blue color
-    #final_df['color'][final_df.pname.isin(['R10-S27','R1-1','R8-S29'])] = "blue"
+    final_df['color'][final_df.pname.isin(['R10-S27','R1-1','R8-S29'])] = "blue"
     final_df.to_csv(base_dir +'/Api/data/Consolidated_data.csv')
     return "Success!"
 

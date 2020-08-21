@@ -7,17 +7,24 @@ import {
   ScrollView,
   StyleSheet,
   Picker,
+  Alert,
 } from "react-native";
 import ProgressCircle from "react-native-progress-circle";
 import { Icon, registerCustomIconType } from "react-native-elements";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 registerCustomIconType("font-awesome-5", FontAwesome5);
 
-const infoURL = "https://myubuntu-5jsdawxgba-uc.a.run.app/api/info";
+const infoURL = "http://192.168.86.247:5000/api/info";
 
-export default function Home({ navigation }) {
+export default function Home({ route, navigation }) {
+  const IP = navigation.getParam("ip", "192.168.86.247");
+  const PORT = navigation.getParam("port", "5000");
+
   const pressHandler = () => {
-    navigation.navigate("ParkingView");
+    navigation.navigate("ParkingView", {
+      ip1: IP,
+      port1: PORT,
+    });
   };
 
   const [selectedValue, setSelectedValue] = useState("all");
@@ -28,18 +35,26 @@ export default function Home({ navigation }) {
     return Number(scaled + "e" + -precision);
   }
 
-  useEffect(() => {
+  useEffect((resolve, reject) => {
     fetch(infoURL, {
       method: "GET",
     })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson["Percentage occupied"]);
-        setData1(responseJson["Percentage occupied"]);
+      .then(function (response) {
+        if (response.ok) {
+          let responseJson = response.json();
+          console.log(responseJson["Percentage occupied"]);
+          setData1(responseJson["Percentage occupied"]);
+        } else {
+          Promise.reject(
+            new Error(
+              `Unable to retrieve API.\nInvalid response received - (${response.status}).`
+            )
+          );
+        }
       })
       .catch((error) => {
+        Promise.reject(new Error(`Unable to retrieve API.\n${error.message}`));
         alert(JSON.stringify(error));
-        console.error(error);
       });
   }, []);
 
@@ -56,6 +71,9 @@ export default function Home({ navigation }) {
           <Text style={styles.header1}>17 June 2020</Text>
         </View>
       </View>
+      <Text>
+        Server IP: {IP}:{PORT}
+      </Text>
 
       <Text style={globalStyles.text1}>Parking Availability</Text>
 

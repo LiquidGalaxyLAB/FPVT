@@ -4,19 +4,28 @@ import pandas as pd
 import pykml
 import os
 from pykml import parser
+from config import *
+from stats import *
+from flask import send_from_directory
 
-i = [0,90,180,270,360]
+get_server_ip()
+server_IP, lg_IP, lg_pass, kml_data, screen_for_logos, screen_for_info = LoadConfigFile()
+dict_stats = main()
 
-password = dict()
-password['lg'] = 'lqgalaxy'
-
-
+file_kmls_txt_path = "kml_tmp/kmls.txt"
+file_query_txt_path = "kml_tmp/query.txt"
+serverPath = "/var/www/html/"
+serverPath_query = "/tmp/"
+query_filename = 'query.txt'
+kmls_filename = 'kmls.txt'
+img_url = "http://" + str(server_IP) + ":5000/get-data/logos/all_logos.JPG"
+info_img_url = "http://" + str(server_IP) + ":5000/get-data/stats/info.png"
 
 # Main Parking Lot
 lon1=0.6065939099961359
 lat1=41.60572107949841
 alt1=196.8565658700859
-range1=230.5098708774676
+range1=150.5098708774676
 tilt1=52.27435395949843
 fovy1=35
 
@@ -28,85 +37,228 @@ range2=112.2310699382615
 tilt2=52.27350541007886
 fovy2=35
 
-orbit_info = []
-orbit_info.append({'lon':lon1, 'lat':lat1, 'alt':alt1, 'heading':-0.07, 'tilt':tilt1, 'fovy':fovy1, 'range':range1, 'local_path':'liquidgalaxy/tmp/file_1_fpvt.kml', 'server_path':'/tmp/file_1_fpvt.kml'})
-orbit_info.append({'lon':lon1, 'lat':lat1, 'alt':alt1, 'heading':90, 'tilt':tilt1, 'fovy':fovy1, 'range':range1, 'local_path':'liquidgalaxy/tmp/file_2.kml', 'server_path':'/tmp/file_2.kml'})
-orbit_info.append({'lon':lon1, 'lat':lat1, 'alt':alt1, 'heading':180, 'tilt':tilt1, 'fovy':fovy1, 'range':range1, 'local_path':'liquidgalaxy/tmp/file_3.kml', 'server_path':'/tmp/file_3.kml'})
-orbit_info.append({'lon':lon1, 'lat':lat1, 'alt':alt1, 'heading':270, 'tilt':tilt1, 'fovy':fovy1, 'range':range1, 'local_path':'liquidgalaxy/tmp/file_4.kml', 'server_path':'/tmp/file_4.kml'})
-orbit_info.append({'lon':lon1, 'lat':lat1, 'alt':alt1, 'heading':360, 'tilt':tilt1, 'fovy':fovy1, 'range':range1, 'local_path':'liquidgalaxy/tmp/file_5.kml', 'server_path':'/tmp/file_5.kml'})
 
-orbit_info2 = []
-orbit_info2.append({'lon':lon2, 'lat':lat2, 'alt':alt2, 'heading':-0.07, 'tilt':tilt2, 'fovy':fovy2, 'range':range2, 'local_path':'liquidgalaxy/tmp/file_m1.kml', 'server_path':'/tmp/file_m1.kml'})
-orbit_info2.append({'lon':lon2, 'lat':lat2, 'alt':alt2, 'heading':90, 'tilt':tilt2, 'fovy':fovy2, 'range':range2, 'local_path':'liquidgalaxy/tmp/file_m2.kml', 'server_path':'/tmp/file_m2.kml'})
-orbit_info2.append({'lon':lon2, 'lat':lat2, 'alt':alt2, 'heading':180, 'tilt':tilt2, 'fovy':fovy2, 'range':range2, 'local_path':'liquidgalaxy/tmp/file_m3.kml', 'server_path':'/tmp/file_m3.kml'})
-orbit_info2.append({'lon':lon2, 'lat':lat2, 'alt':alt2, 'heading':270, 'tilt':tilt2, 'fovy':fovy2, 'range':range2, 'local_path':'liquidgalaxy/tmp/file_m4.kml', 'server_path':'/tmp/file_m4.kml'})
-orbit_info2.append({'lon':lon2, 'lat':lat2, 'alt':alt2, 'heading':360, 'tilt':tilt2, 'fovy':fovy2, 'range':range2, 'local_path':'liquidgalaxy/tmp/file_m5.kml', 'server_path':'/tmp/file_m5.kml'})
-print(orbit_info[0])
+def generate_orbit_content(lon, lat, alt, tilt, fovy, range1):
 
-def send_kml(file_path, username, ip, server_path):
-    #var = "sshpass -p '"+password[username]+"' scp " + file_path + " "+username+"@" + ip +":" + server_path
-    #print(var)
-    tmp = os.system("sshpass -p '"+password[username]+"' scp -o 'StrictHostKeyChecking=no' " + file_path + " "+username+"@" + ip +":" + server_path)
-    return tmp
-
-
-def generate_orbit_content(lon, lat, alt, heading, tilt, fovy, range1):
-
+    i=0
     xml = '<?xml version="1.0" encoding="UTF-8"?>'
     xml += '\n'+'<kml xmlns="http://www.opengis.net/kml/2.2"'
-    xml += '\n'+'xmlns:gx="http://www.google.com/kml/ext/2.2">'
-    xml += '\n\t'+'<Placemark>'
-    xml += '\n\t\t'+'<name>LookAt.kml</name>'
-    xml += '\n\t\t'+'<LookAt>'
-    xml += '\n\t\t'+'<longitude>'+str(lon)+'</longitude>'
-    xml += '\n\t\t'+'<latitude>'+str(lat)+'</latitude>'
-    xml += '\n\t\t'+'<altitude>'+str(alt)+'</altitude>'
-    xml += '\n\t\t'+'<heading>'+str(heading)+'</heading>'
-    xml += '\n\t\t'+'<tilt>'+str(tilt)+'</tilt>'
-    xml += '\n\t\t'+'<gx:fovy>'+str(fovy)+'</gx:fovy>'
-    xml += '\n\t\t'+'<range>'+str(range1)+'</range>'
-    xml += '\n\t\t'+'<altitudeMode>absolute</altitudeMode>'
-    xml += '\n\t\t'+'</LookAt>'
-    xml += '\n\t\t'+'<Point>'
-    xml += '\n\t\t\t'+'<coordinates>'+str(lon)+','+str(lat)+','+str(alt)+'</coordinates>'
-    xml += '\n\t\t'+'</Point>'
-    xml += '\n\t'+'</Placemark>'
+    xml += '\n'+'xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">'
+    xml += '\n'+'<gx:Tour>'
+    xml += '\n\t'+'<name>Orbit</name>'
+    xml += '\n\t'+'<gx:Playlist>'
+    for i in range(0,360,10):
+        print(i)
+        xml += '\n\t\t'+'<gx:FlyTo>'
+        xml += '\n\t\t\t'+'<gx:duration>1.2</gx:duration>'
+        xml += '\n\t\t\t'+'<gx:flyToMode>smooth</gx:flyToMode>'
+        xml += '\n\t\t\t'+'<LookAt>'
+        xml += '\n\t\t\t\t'+'<longitude>'+str(lon)+'</longitude>'
+        xml += '\n\t\t\t\t'+'<latitude>'+str(lat)+'</latitude>'
+        xml += '\n\t\t\t\t'+'<altitude>'+str(alt)+'</altitude>'
+        xml += '\n\t\t\t\t'+'<heading>'+str(i)+'</heading>'
+        xml += '\n\t\t\t\t'+'<tilt>'+str(tilt)+'</tilt>'
+        xml += '\n\t\t\t\t'+'<gx:fovy>'+str(fovy)+'</gx:fovy>'
+        xml += '\n\t\t\t\t'+'<range>'+str(range1)+'</range>'
+        xml += '\n\t\t\t\t'+'<gx:altitudeMode>absolute</gx:altitudeMode>'
+        xml += '\n\t\t\t'+'</LookAt>'
+        xml += '\n\t\t'+'</gx:FlyTo>'
+
+    xml += '\n\t'+'</gx:Playlist>'
+    xml += '\n'+'</gx:Tour>'
+    xml += '\n'+'</kml>'
+    return xml
+
+def generate_orbit_file(content, filename):
+
+    mypath ="static/kml"
+    if not os.path.exists(mypath):
+        os.makedirs(mypath)
+        print("Path is created")
+    fname = mypath + "/" + filename
+    with open(fname,"w") as f:
+        f.write(content)
+    f.close()
+    print(fname)
+    return fname
+
+def save_orbit_files():
+
+    content = generate_orbit_content(lon1, lat1, alt1, tilt1, fovy1, range1)
+    path1 = generate_orbit_file(content, 'main_parking_tour.kml')
+
+    content2 = generate_orbit_content(lon2, lat2, alt2, tilt2, fovy2, range2)
+    path2 = generate_orbit_file(content2, 'magical_parking_tour.kml')
+    print(path1,path2)
+
+    return path1,path2
+
+def sendKML_ToGalaxy(kml_name1, kml_name2, kmls_filename):
+    save_orbit_files()
+    mypath ="kml_tmp"
+    if not os.path.exists(mypath):
+        os.makedirs(mypath)
+        print("Path is created")
+    fname = mypath + "/" + kmls_filename
+    with open(fname,"w") as f:
+        f.write("http://" + str(server_IP) + ":5000/get-data/kml/" + str(kml_name1)+".kml"+"\n")
+        f.write("http://" + str(server_IP) + ":5000/get-data/kml/" + str(kml_name2)+".kml")
+    f.close()
+    print(fname)
+
+    #sshpass -p 'lqgalaxy' scp -o 'StrictHostKeyChecking=no' kml_tmp/kmls.txt lg@10.160.67.148:/var/www/html/
+    command = "sshpass -p '"+lg_pass+"' scp -o 'StrictHostKeyChecking=no' " + file_kmls_txt_path + " lg@"+ lg_IP +":" + serverPath
+    print(command)
+    error = os.system(command)
+
+    return error
+
+
+
+def create_logo_kml_send():
+    logo_kml = 'slave_4.kml'
+
+    xml = '<?xml version="1.0" encoding="UTF-8"?>'
+    xml += '<kml xmlns="http://www.opengis.net/kml/2.2" '
+    xml += 'xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">'
+    xml += '\n\t'+'<Document>'
+    xml += '\n\t\t'+'<Folder>'
+    xml += '\n\t\t\t'+'<ScreenOverlay>'
+    xml += '\n\t\t\t\t'+'<name>Logos</name>'
+    xml += '\n\t\t\t\t'+'<Icon>'
+    xml += '\n\t\t\t\t\t'+'<href>'+str(img_url)+'</href>'
+    xml += '\n\t\t\t\t'+'</Icon>'
+    xml += '\n\t\t\t\t'+'<overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t\t'+'<screenXY x="0" y="1" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t\t'+'<rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t\t'+'<size x="0" y="0" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t'+'</ScreenOverlay>'
+    xml += '\n\t\t'+'</Folder>'
+    xml += '\n\t'+'</Document>'
     xml += '\n'+'</kml>'
     
-    return xml
+    mypath ="kml_tmp"
+    if not os.path.exists(mypath):
+        os.makedirs(mypath)
+        print("Path is created")
+    fname = mypath + "/" + logo_kml
+    with open(fname,"w") as f:
+        f.write(xml)
+    f.close()
+    print(fname)
+
+    command = "sshpass -p '"+lg_pass+"' scp -o 'StrictHostKeyChecking=no' "+fname+ " lg@"+ lg_IP +":" + serverPath+"kml"
+    print(command)
+    #sshpass -p 'lqgalaxy' scp -o 'StrictHostKeyChecking=no' kml_tmp/slave_5.kml lg@10.160.67.148:/var/www/html/kml
+    error = os.system(command)
+
+    return error
+
+
+def create_info_kml_send():
+    info_kml = 'slave_3.kml'
     
-def generate_orbit_file(content, path):
-    file1 = open(path, 'w')
-    file1.write(content)
-    file1.close()
-    path1 = '/Api/'+path
-    return path1
+    xml = '<?xml version="1.0" encoding="UTF-8"?>'
+    xml += '<kml xmlns="http://www.opengis.net/kml/2.2" '
+    xml += 'xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">'
+    xml += '\n\t'+'<Document>'
+    xml += '\n\t\t'+'<Folder>'
+    xml += '\n\t\t\t'+'<ScreenOverlay>'
+    xml += '\n\t\t\t\t'+'<name>Logos</name>'
+    xml += '\n\t\t\t\t'+'<Icon>'
+    xml += '\n\t\t\t\t\t'+'<href>'+str(info_img_url)+'</href>'
+    xml += '\n\t\t\t\t'+'</Icon>'
+    xml += '\n\t\t\t\t'+'<overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t\t'+'<screenXY x="0" y="1" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t\t'+'<rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t\t'+'<size x="0" y="0" xunits="fraction" yunits="fraction"/>'
+    xml += '\n\t\t\t'+'</ScreenOverlay>'
+    xml += '\n\t\t'+'</Folder>'
+    xml += '\n\t'+'</Document>'
+    xml += '\n'+'</kml>'
+    
+    
+    print(info_kml)
+    
 
+    mypath ="kml_tmp"
+    if not os.path.exists(mypath):
+        os.makedirs(mypath)
+        print("Path is created")
+    fname = mypath + "/" + info_kml
+    with open(fname,"w") as f:
+        f.write(xml)
+    f.close()
+    print(fname)
 
-def send_kml_orbit_files():
-    # Sending KML file
-    error = send_kml('/Api/liquidgalaxy/Free_parking.kml', 'lg', '192.168.86.228', '/tmp/Free_parking.kml')
+    command = "sshpass -p '"+lg_pass+"' scp -o 'StrictHostKeyChecking=no' "+fname+ " lg@"+ lg_IP +":" + serverPath+"kml"
+    print(command)
+    #sshpass -p 'lqgalaxy' scp -o 'StrictHostKeyChecking=no' kml_tmp/slave_5.kml lg@10.160.67.148:/var/www/html/kml
+    error = os.system(command)
 
-    for info in orbit_info:
-        #print(info)
-        content = generate_orbit_content(info['lon'], info['lat'], info['alt'], info['heading'], info['tilt'],info['fovy'], info['range'])
-        path1 = generate_orbit_file(content, info['local_path'])
-        print(path1)
-        error = send_kml(path1, 'lg', '192.168.86.228', info['server_path'])
-              
     return error
 
-def send_mag_kml_orbit_files():
-    # Sending KML file
-    error = send_kml('/Api/liquidgalaxy/Free_parking.kml', 'lg', '192.168.86.228', '/tmp/Free_parking.kml')
 
-    for info in orbit_info2:
-        #print(info)
-        content = generate_orbit_content(info['lon'], info['lat'], info['alt'], info['heading'], info['tilt'], info['fovy'], info['range'])
-        path2 = generate_orbit_file(content, info['local_path'])
-        print(path2)
-        error = send_kml(path2, 'lg', '192.168.86.228', info['server_path'])
-              
+
+def play_orbit():
+    command = "echo 'playtour=Orbit' | sshpass -p "+lg_pass+" ssh lg@"+lg_IP+" 'cat - > /tmp/query.txt'"
+    print(command)
+    error = os.system(command)
+
+    print ("Play orbit!")
     return error
 
-send_kml_orbit_files()
+def send_main_file_orbit1():
+
+    # Send the files to galaxy
+    create_logo_kml_send()
+    create_info_kml_send()
+    error = sendKML_ToGalaxy('Free_parking', 'main_parking_tour', kmls_filename)
+    play_orbit()
+    return error
+
+def send_main_file_orbit2():
+
+    # Send the files to galaxy
+    create_logo_kml_send()
+    create_info_kml_send()
+    error = sendKML_ToGalaxy('Free_parking', 'magical_parking_tour', kmls_filename)
+    play_orbit()
+    return error
+
+
+# To start tour
+#command = "echo 'playtour=Orbit' | sshpass -p lq ssh lg@192.168.10.185 'cat - > /tmp/query.txt'"
+#os.system(command)
+
+# To end tour
+#command = "echo 'exittour=true' | sshpass -p lq ssh lg@192.168.10.185 'cat - > /tmp/query.txt'"
+#os.system(command)
+
+#def write_FlyTo_andSend(kml_file_name):
+    #ip_galaxy_master = lg_IP
+    #ip_server = server_IP
+
+    #file = open(kml_file_name, 'r+')
+    #line = file.read()
+    #flyto_text = line.split("<LookAt>")[1].split("</LookAt")[0]
+    #file.close()
+
+    #file = open("kml_tmp/query.txt", 'w+')
+    #file.write("flytoview=<LookAt>"+flyto_text+"</LookAt>" + '\n')
+    #file.close()
+
+    #os.system("sshpass -p 'lqgalaxy' scp " + file_query_txt_path + " lg@"+ ip_galaxy_master +":" + serverPath_query)
+
+
+def flyTo_initialize():
+
+    flyto_text = "<LookAt><longitude>0.6072571685151629</longitude><latitude>41.6062050681974</latitude><altitude>197.0237639225471</altitude><heading>270</heading><tilt>52</tilt><gx:fovy>35</gx:fovy><range>230.5098708774676</range><altitudeMode>absolute</altitudeMode></LookAt>"
+
+    file = open("kml_tmp/query.txt", 'w+')
+    file.write("flytoview="+ flyto_text + '\n')
+    file.close()
+
+    error = os.system("sshpass -p 'lqgalaxy' scp " + file_query_txt_path + " lg@"+ lg_IP +":" + serverPath_query)
+    return error
+
