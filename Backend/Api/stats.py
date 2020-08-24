@@ -6,16 +6,12 @@ import json
 import time
 from PIL import Image, ImageDraw,ImageFont
 
-
-def main():
+def get_data(df, tc):
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
     print(ts)
-    filename = './data/Consolidated_data.csv'
-    df = pd.read_csv(filename)
-    print(df.head())
-    total_cap = len(df)
-    number_uk = len(df[df.color.isin(['yellow'])])
-    number_in_cam_view = total_cap - number_uk
+    total_cap = tc
+    number_in_cam_view = len(df)
+    number_uk = total_cap - number_in_cam_view
     number_free = len(df[df.color == 'green'])
     number_reserved = 3    # existing reserved spots for handicapped
     number_occupied = number_in_cam_view - (number_free + number_reserved)
@@ -35,6 +31,29 @@ def main():
     #print(json.dumps(dict_stats, indent=4))
     return dict_stats
 
+def main():
+    filename = './data/Consolidated_data.csv'
+    df = pd.read_csv(filename)
+    dict_stats = get_data(df, 489)
+    
+    return dict_stats
+
+def main1():
+    filename = './data/Consolidated_data.csv'
+    df = pd.read_csv(filename)
+    df_c1 = df[df['PL'].isin(['PL1C1', 'PL1C2'])]
+    dict_stats1 = get_data(df_c1, 353)
+    
+    return dict_stats1
+
+def main2():
+    filename = './data/Consolidated_data.csv'
+    df = pd.read_csv(filename)
+    df_c2 = df[df['PL'].isin(['PL2C1', 'PL2C2'])]
+    dict_stats2 = get_data(df_c2, 136)
+
+    return dict_stats2
+
 def save_stats_as_img(dict_stats):
     img = Image.new('RGB', (1100, 1400), color = 'white')
 
@@ -51,10 +70,10 @@ def save_stats_as_img(dict_stats):
     print(info)
 
     d = ImageDraw.Draw(img)
-    #font = ImageFont.truetype('Pillow/Tests/fonts/FreeMono.ttf', 40)
-    d.text((70,70), info, fill=(0,0,0)) #font=font
-    img.save('./static/stats/info1.png')
+    font = ImageFont.truetype('ARIALBD.TTF', 40)
+    d.text((70,70), info, fill=(0,0,0), font=font)
+    return img
 
-dict_stats = main()
-save_stats_as_img(dict_stats)
+
+
 

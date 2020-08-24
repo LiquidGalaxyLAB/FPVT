@@ -38,7 +38,12 @@ save_orbit_files()
 #Save stats
 from stats import *
 dict_stats = main()
-save_stats_as_img(dict_stats)
+dict_stats1 = main1()
+dict_stats2 = main2()
+img1 = save_stats_as_img(dict_stats1)
+img1.save('./static/stats/info1.png')
+img2 = save_stats_as_img(dict_stats2)
+img2.save('./static/stats/info2.png')
 
 
 # Create the application instance

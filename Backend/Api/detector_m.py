@@ -100,38 +100,42 @@ def read_regions():
     file_cam1 = os.path.join(base_dir + '/Api/data/parking_regions_cam1.csv')
     print(file_cam1)
     park_tags1 = pd.read_csv(file_cam1)
+    park_tags1['PL'] = 'PL1C1'
     print(park_tags1.head())
 
     file_cam2 = os.path.join(base_dir + '/Api/data/parking_regions_cam2.csv')
     print(file_cam2)
     park_tags2 = pd.read_csv(file_cam2)
+    park_tags2['PL'] = 'PL1C2'
     print(park_tags2.head())
     
     file_cam3 = os.path.join(base_dir + '/Api/data/magical_regions1.csv')
     print(file_cam3)
     park_tags3 = pd.read_csv(file_cam3)
+    park_tags3['PL'] = 'PL2C1'
     print(park_tags3.head())
 
     file_cam4 = os.path.join(base_dir + '/Api/data/magical_regions2.csv')
     print(file_cam4)
     park_tags4 = pd.read_csv(file_cam4)
+    park_tags4['PL'] = 'PL2C2'
     print(park_tags4.head())
 
     # Merge the regions with ids
     parked_cars1 = pd.merge(pl_camera1, park_tags1, left_index=True, right_index=True)
-    parked_cars1.columns = ['polygon','pname']
+    parked_cars1.columns = ['polygon','pname','PL']
     print(parked_cars1.head())
 
     parked_cars2 = pd.merge(pl_camera2, park_tags2, left_index=True, right_index=True)
-    parked_cars2.columns = ['polygon','pname']
+    parked_cars2.columns = ['polygon','pname','PL']
     print(parked_cars2.head())
 
     parked_cars3 = pd.merge(pl_camera3, park_tags3, left_index=True, right_index=True)
-    parked_cars3.columns = ['polygon','pname']
+    parked_cars3.columns = ['polygon','pname','PL']
     print(parked_cars3.head())
 
     parked_cars4 = pd.merge(pl_camera4, park_tags4, left_index=True, right_index=True)
-    parked_cars4.columns = ['polygon','pname']
+    parked_cars4.columns = ['polygon','pname','PL']
     print(parked_cars4.head())
 
     parked_cars_main = parked_cars1.append(parked_cars2, ignore_index = True)
