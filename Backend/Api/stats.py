@@ -34,7 +34,26 @@ def get_data(df, tc):
 def main():
     filename = './data/Consolidated_data.csv'
     df = pd.read_csv(filename)
-    dict_stats = get_data(df, 489)
+    ts = time.strftime("%Y-%m-%d %H:%M:%S")
+    print(ts)
+    total_cap = len(df) 
+    number_occupied = len(df[df.color == 'red'])
+    number_free = len(df[df.color == 'green'])
+    number_reserved = 3    # existing reserved spots for handicapped
+    number_in_cam_view = number_occupied + number_free + number_reserved
+    number_uk = total_cap - number_in_cam_view
+    perc_occ =  number_occupied*100/number_in_cam_view
+    perc_free = number_free*100/number_in_cam_view
+    dict_stats = {
+    'Last refresh': ts,
+    'Capacity': total_cap,
+    'Number in camera view': number_in_cam_view,
+    'Free spots': number_free,
+    'Occupied spots': number_occupied,
+    'Reserved spots': number_reserved,
+    'Percentage free': perc_free,
+    'Percentage occupied': perc_occ,
+    }
     
     return dict_stats
 
