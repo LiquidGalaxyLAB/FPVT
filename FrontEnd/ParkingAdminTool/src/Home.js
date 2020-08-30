@@ -2,20 +2,25 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import * as ReactBootStrap from "react-bootstrap";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
-require('dotenv').config()
-
+require("dotenv").config();
 
 var today = new Date();
 var dd = today.getDate();
-var mm = today.getMonth()+1; 
+var mm = today.getMonth() + 1;
 var yyyy = today.getFullYear();
-var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+var time =
+  today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
 // alert(JSON.stringify(process.env.REACT_APP_SERVER_IP));
-const infoURL = process.env.REACT_APP_SERVER_IP+"/api/info";
-const kmlURL = process.env.REACT_APP_SERVER_IP+"/api/orbit_main" //"http://10.160.67.38:5000/api/kml";
-const kml2URL = process.env.REACT_APP_SERVER_IP+"/api/orbit_mag" //"http://10.160.67.38:5000/api/kml_mag";
-const imageURL = [process.env.REACT_APP_SERVER_IP+"/api/camera1",process.env.REACT_APP_SERVER_IP+"/api/camera2", process.env.REACT_APP_SERVER_IP+"/api/camera_mag1",process.env.REACT_APP_SERVER_IP+"/api/camera_mag2"];
+const infoURL = process.env.REACT_APP_SERVER_IP + "/api/info";
+const kmlURL = process.env.REACT_APP_SERVER_IP + "/api/orbit_main"; //"http://10.160.67.38:5000/api/kml";
+const kml2URL = process.env.REACT_APP_SERVER_IP + "/api/orbit_mag"; //"http://10.160.67.38:5000/api/kml_mag";
+const imageURL = [
+  process.env.REACT_APP_SERVER_IP + "/api/camera1",
+  process.env.REACT_APP_SERVER_IP + "/api/camera2",
+  process.env.REACT_APP_SERVER_IP + "/api/camera_mag1",
+  process.env.REACT_APP_SERVER_IP + "/api/camera_mag2",
+];
 
 export default function Home() {
   const [camimage, setCamImage] = useState(imageURL[1]);
@@ -44,14 +49,14 @@ export default function Home() {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        alert("Operation successful!:"+JSON.stringify(responseJson));
+        alert("Operation successful!:" + JSON.stringify(responseJson));
         console.log(responseJson);
       })
       .catch((error) => {
-        alert("Operation successful!:"+JSON.stringify(error));
+        alert("Operation successful!:" + JSON.stringify(error));
         console.error(error);
       });
-  };
+  }
 
   function fetchKml2API() {
     // param is a highlighted word from the user before it clicked the button
@@ -60,43 +65,45 @@ export default function Home() {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        alert("Operation successful!:"+JSON.stringify(responseJson));
+        alert("Operation successful!:" + JSON.stringify(responseJson));
         console.log(responseJson);
       })
       .catch((error) => {
-        alert("Operation successful!:"+JSON.stringify(error));
+        alert("Operation successful!:" + JSON.stringify(error));
         console.error(error);
       });
-  };
-  
+  }
 
   useEffect(() => {
     fetch(infoURL, {
       method: "GET",
     })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      alert(JSON.stringify(responseJson));
-      console.log(responseJson);
-      setData1(responseJson["Capacity"]);
-      setData2(responseJson["Number in camera view"]);
-      setData3(responseJson["Free spots"]);
-      setData4(responseJson["Occupied spots"]);
-      setData5(responseJson["Percentage free"]);
-      setData6(responseJson["Percentage occupied"]);
-      setData7(responseJson["Reserved spots"]);
+      .then((response) => response.json())
+      .then((responseJson) => {
+        alert(JSON.stringify(responseJson));
+        console.log(responseJson);
+        setData1(responseJson["Capacity"]);
+        setData2(responseJson["Number in camera view"]);
+        setData3(responseJson["Free spots"]);
+        setData4(responseJson["Occupied spots"]);
+        setData5(responseJson["Percentage free"]);
+        setData6(responseJson["Percentage occupied"]);
+        setData7(responseJson["Reserved spots"]);
 
-      // alert(JSON.stringify(data));
-      // return responseJson;
-    })
-    .catch((error) => {
-      alert(JSON.stringify(error));
-      console.error(error);
-    });
+        // alert(JSON.stringify(data));
+        // return responseJson;
+      })
+      .catch((error) => {
+        alert(JSON.stringify(error));
+        console.error(error);
+      });
   }, []);
 
   const stats = [
-    { statistic: "Last refresh:", value: mm+'-'+dd+'-'+yyyy+' '+time },
+    {
+      statistic: "Last refresh:",
+      value: mm + "-" + dd + "-" + yyyy + " " + time,
+    },
     { statistic: "Total capacity:", value: data1 },
     { statistic: "Number in camera view:", value: data2 },
     { statistic: "Free spots:", value: data3 },
@@ -108,11 +115,7 @@ export default function Home() {
   return (
     // <h1>Parking Admin Tool</h1>
     <div className="mainlayout">
-      <img
-        src={camimage}
-        alt='img'
-        width='75%'
-      />
+      <img src={camimage} alt="img" width="75%" />
       <div className="abouttext">
         <div
           style={{
@@ -249,7 +252,6 @@ export default function Home() {
           Orbit Parking 2
         </button>
       </div>
-
     </div>
   );
 }
