@@ -4,7 +4,9 @@ import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import Navigator from "./routes/drawer";
 import Navigator2 from "./routes/drawer2";
+import { androidClientId } from "./superSecretKey";
 // import { NavigationContainer } from "react-navigation-drawer";
+import * as Google from "expo-google-app-auth";
 
 import { AuthContext } from "./components/context";
 

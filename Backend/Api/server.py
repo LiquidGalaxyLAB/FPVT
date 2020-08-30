@@ -34,6 +34,7 @@ from show_kml import *
 #create_logo_kml_send()
 #create_info_kml_send()
 save_orbit_files()
+flyTo_initialize()
 
 #Save stats
 from stats import *

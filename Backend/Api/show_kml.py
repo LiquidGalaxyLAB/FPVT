@@ -19,7 +19,8 @@ serverPath_query = "/tmp/"
 query_filename = 'query.txt'
 kmls_filename = 'kmls.txt'
 img_url = "http://" + str(server_IP) + ":5000/get-data/logos/all_logos.JPG"
-info_img_url = "http://" + str(server_IP) + ":5000/get-data/stats/info.png"
+info1_img_url = "http://" + str(server_IP) + ":5000/get-data/stats/info1.png"
+info2_img_url = "http://" + str(server_IP) + ":5000/get-data/stats/info2.png"
 
 # Main Parking Lot
 lon1=0.6065939099961359
@@ -155,7 +156,7 @@ def create_logo_kml_send():
     return error
 
 
-def create_info_kml_send():
+def create_info_kml_send(info_img_url):
     info_kml = 'slave_3.kml'
     
     xml = '<?xml version="1.0" encoding="UTF-8"?>'
@@ -212,7 +213,7 @@ def send_main_file_orbit1():
 
     # Send the files to galaxy
     create_logo_kml_send()
-    create_info_kml_send()
+    create_info_kml_send(info1_img_url)
     error = sendKML_ToGalaxy('Free_parking', 'main_parking_tour', kmls_filename)
     play_orbit()
     return error
@@ -221,7 +222,7 @@ def send_main_file_orbit2():
 
     # Send the files to galaxy
     create_logo_kml_send()
-    create_info_kml_send()
+    create_info_kml_send(info2_img_url)
     error = sendKML_ToGalaxy('Free_parking', 'magical_parking_tour', kmls_filename)
     play_orbit()
     return error
@@ -253,12 +254,12 @@ def send_main_file_orbit2():
 
 def flyTo_initialize():
 
-    flyto_text = "<LookAt><longitude>0.6072571685151629</longitude><latitude>41.6062050681974</latitude><altitude>197.0237639225471</altitude><heading>270</heading><tilt>52</tilt><gx:fovy>35</gx:fovy><range>230.5098708774676</range><altitudeMode>absolute</altitudeMode></LookAt>"
+    flyto_text = "<LookAt><longitude>40.77</longitude><latitude>-3.6</latitude><altitude>0</altitude><heading>0</heading><tilt>5</tilt><range>10000000</range><altitudeMode>absolute</altitudeMode></LookAt>"
 
     file = open("kml_tmp/query.txt", 'w+')
     file.write("flytoview="+ flyto_text + '\n')
     file.close()
 
-    error = os.system("sshpass -p 'lqgalaxy' scp " + file_query_txt_path + " lg@"+ lg_IP +":" + serverPath_query)
+    error = os.system("sshpass -p "+lg_pass+" scp " + file_query_txt_path + " lg@"+ lg_IP +":" + serverPath_query)
     return error
 

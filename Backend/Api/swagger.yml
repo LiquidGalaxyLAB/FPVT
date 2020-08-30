@@ -55,6 +55,12 @@ paths:
       responses:
         200:
           description: "OK"
+  /info:
+    get:
+      operationId: "stats.main"
+      responses:
+        200:
+          description: "OK"
   /info1:
     get:
       operationId: "stats.main1"

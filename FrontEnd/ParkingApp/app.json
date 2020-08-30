@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Blank Template",
+    "name": "FPVT",
     "slug": "rn-app1",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -9,9 +9,19 @@
       "android",
       "web"
     ],
+    "android": {
+      "package": "com.ccgsoc.fpvt",
+      "versionCode": 2
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ccgsoc.fpvt",
+      "buildNumber": "1.0.0"
+    },
+
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/LGLogo.png",
+    "icon": "./assets/FPVT.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -22,9 +32,7 @@
     },
     "assetBundlePatterns": [
       "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    }
+    ]
+    
   }
 }
