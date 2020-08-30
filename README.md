@@ -9,6 +9,14 @@ This project is developed as part of the Google Summer Of Code 2020. Using integ
 Before proceeding with the installation, please refer to the following google doc for a general overview of the project.
 FPVT information: https://docs.google.com/document/d/14EUbFxjIUYEIiPBmHRHfunIQHkvbDnO1fnkXOgXieRU/edit?usp=sharing
 
+Other Links:
+Youtube: https://www.youtube.com/watch?v=WWlRR0tqOZU&feature=youtu.be
+Android APK:
+Information: https://docs.google.com/document/d/175FyfcORh-OI1JeCIcpLlEApigEzTy-1zRsSsqekQQg/edit?usp=sharing
+Other files: https://drive.google.com/drive/folders/1JYZ6tpNezlCE1iZvtCEiAh5zQDxnyY-e?usp=sharing
+Worklog: https://docs.google.com/spreadsheets/d/1-w7GdFDhnAvSZ6_EzmSZErcmXyB4-dKgrsecZkpzPVI/edit?usp=sharing
+Commits: 
+
 © Charanya Chandrasekaran, Liquid Galaxy Lab, Google Summer of Code 2020 GitHub, Inc.
 
 ## Before Installation
@@ -226,14 +234,20 @@ The following tree represents the directory hierarchy:
 
 ## Future Work
 The future work that can be done to further develop the project includes:
-Integrating the app with IP security camera by inputting the IP of the camera in the RTSP media server docker container
-Accommodating more cameras and automating the annotation of parking spaces, as it was done manually due to time constraints.
-Additional functionalities for the app: 
-Implement Google sign-in in mobile application
-Have the backend server up and run it using Google Kubernetes Engine/Cloud run
+- Integrating the app with IP security camera by inputting the IP of the camera in the RTSP media server docker container
+- Accommodating more cameras and automating the annotation of parking spaces, as it was done manually due to time constraints.
+- Additional functionalities for the app: 
+	- Implement Google sign-in in mobile application
+	- Have the backend server up and run it using Google Kubernetes Engine/Cloud run
 The application was tested by uploading the Docker Image to Google cloud console and running it using cloud run with PORT 5000, memory 2gb, 2 CPUs.
 
-In order to implement the project in another parking lot, one needs to follow these steps:
+## Implementation steps:
+To implement the project in another parking lot, one needs to follow these steps:
+1. Get the IP of the CCTV camera generate a stream, and run the video.py file to save snapshots
+2. Annotate the parking lots using a video downloaded from the stream, and annotating the parking spaces on google earth to generate a KML file with all parking lots (Full_parking.kml)
+3. Run the main docker container to launch the server
+4. Install and run the apps.
+
 
 ## Licensing
 - Copyright (c) 2020 Charanya Chandrasekaran
