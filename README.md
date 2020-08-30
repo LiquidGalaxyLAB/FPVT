@@ -16,7 +16,7 @@ Other Links:
     Information: https://docs.google.com/document/d/175FyfcORh-OI1JeCIcpLlEApigEzTy-1zRsSsqekQQg/edit?usp=sharing
     Other files: https://drive.google.com/drive/folders/1JYZ6tpNezlCE1iZvtCEiAh5zQDxnyY-e?usp=sharing
 - Worklog: https://docs.google.com/spreadsheets/d/1-w7GdFDhnAvSZ6_EzmSZErcmXyB4-dKgrsecZkpzPVI/edit?usp=sharing
-- Commits: 
+- Commits: https://github.com/LiquidGalaxyLAB/FPVT/blob/master/git_log.txt
 
 © Charanya Chandrasekaran, Liquid Galaxy Lab, Google Summer of Code 2020 GitHub, Inc.
 
