@@ -50,17 +50,22 @@ For adding two more camera streams, repeat step 3 and replace/add the name of th
 ### 4. Running the main backend docker container
 For running the YOLOv4 object detection model, first, navigate to the Backend Folder in the FPVT project.
 Ensure that you have docker installed on your system. For checking the version, you can enter the following command in the terminal.
+
      $ docker -v
 Other useful commands:
+
      $ docker ps -> Displays the running docker containers
+     
      $ docker images -> Displays the list of docker images existing.
 
 Navigate to the Backend/ folder and build the docker container using the image. The container has been named as myubuntu.
+     
      $ sudo docker build -t myubuntu .
 All the dependencies required are automatically installed. Now you will be able to see the docker image built when you enter “sudo docker images” in the terminal.
 
 Now, run the docker image created by entering the following command:
-    $ sudo docker run --name=myubuntu -p 5000:5000 -d myubuntu
+     
+     $ sudo docker run --name=myubuntu -p 5000:5000 -d myubuntu
 Here, the argument -p indicates the port in which the Flask web server will run.
 Some additional docker commands which may be useful:
     $ docker exec -it myubuntu bash - To enter the docker container
