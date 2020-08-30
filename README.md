@@ -7,15 +7,16 @@
 
 This project is developed as part of the Google Summer Of Code 2020. Using integration with local security cameras, the goal of the project is to classify the free and occupied parking spaces in parking lots using object detection models (yolov4). Cars are detected by running the model on the image of the parking lot and the free parking areas are identifed. The spots are then visualized in the liquid galaxy. In addition, a mobile application for users and a web application for parking administrators are built for monitoring the occupancy of parking spaces.
 Before proceeding with the installation, please refer to the following google doc for a general overview of the project.
-FPVT information: https://docs.google.com/document/d/14EUbFxjIUYEIiPBmHRHfunIQHkvbDnO1fnkXOgXieRU/edit?usp=sharing
+
+- FPVT information: https://docs.google.com/document/d/14EUbFxjIUYEIiPBmHRHfunIQHkvbDnO1fnkXOgXieRU/edit?usp=sharing
 
 Other Links:
-Youtube: https://www.youtube.com/watch?v=WWlRR0tqOZU&feature=youtu.be
-Android APK:
-Information: https://docs.google.com/document/d/175FyfcORh-OI1JeCIcpLlEApigEzTy-1zRsSsqekQQg/edit?usp=sharing
-Other files: https://drive.google.com/drive/folders/1JYZ6tpNezlCE1iZvtCEiAh5zQDxnyY-e?usp=sharing
-Worklog: https://docs.google.com/spreadsheets/d/1-w7GdFDhnAvSZ6_EzmSZErcmXyB4-dKgrsecZkpzPVI/edit?usp=sharing
-Commits: 
+- Youtube: https://www.youtube.com/watch?v=WWlRR0tqOZU&feature=youtu.be
+- Android APK:
+    Information: https://docs.google.com/document/d/175FyfcORh-OI1JeCIcpLlEApigEzTy-1zRsSsqekQQg/edit?usp=sharing
+    Other files: https://drive.google.com/drive/folders/1JYZ6tpNezlCE1iZvtCEiAh5zQDxnyY-e?usp=sharing
+- Worklog: https://docs.google.com/spreadsheets/d/1-w7GdFDhnAvSZ6_EzmSZErcmXyB4-dKgrsecZkpzPVI/edit?usp=sharing
+- Commits: 
 
 © Charanya Chandrasekaran, Liquid Galaxy Lab, Google Summer of Code 2020 GitHub, Inc.
 
