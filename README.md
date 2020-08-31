@@ -113,10 +113,11 @@ Basepath: /api
 ### 1. Mobile App:
 The link and all the other details of the mobile application can be found in the following link:
 https://drive.google.com/drive/folders/1JYZ6tpNezlCE1iZvtCEiAh5zQDxnyY-e?usp=sharing
+
 Android APK link:
 https://drive.google.com/file/d/1UoyxMDrDnc-uL5hGqWd8odK_d3qGJ2oX/view?usp=sharing
 
-The apk can be directly installed in android devices. The dummy user sign in credentials are -> username: user1; password: password.
+The apk can be directly installed in android devices. The default dummy user sign in credentials are -> username: user1; password: password. The user can also sign in using Google by clicking on the "Google" button, entering the credentials and then clicking on "Sign in".
 
 The app was built using react native expo tools. To run the app from the repository, navigate to the */Frontend/ParkingApp/* folder and run the following commands on the terminal. The reference documenttion can be found here: https://docs.expo.io/workflow/expo-cli/
 sudo npm install -g expo-cli
@@ -237,8 +238,7 @@ The following tree represents the directory hierarchy:
 The future work that can be done to further develop the project includes:
 - Integrating the app with IP security camera by inputting the IP of the camera in the RTSP media server docker container
 - Accommodating more cameras and automating the annotation of parking spaces, as it was done manually due to time constraints.
-- Additional functionalities for the app: 
-	- Implement Google sign-in in mobile application
+- Additional functionalities for the app:
 	- Have the backend server up and run it using Google Kubernetes Engine/Cloud run
 The application was tested by uploading the Docker Image to Google cloud console and running it using cloud run with PORT 5000, memory 2gb, 2 CPUs.
 
