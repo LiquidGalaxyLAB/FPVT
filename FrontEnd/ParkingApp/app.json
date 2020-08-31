@@ -11,7 +11,13 @@
     ],
     "android": {
       "package": "com.ccgsoc.fpvt",
-      "versionCode": 2
+      "versionCode": 4,
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AIzaSyDEgX2QKR2Tj_Flb5oia7fVw11mvlAAvXA",
+          "certificateHash": "AD15B5977870B5236BF04CC75FDA3866068ABDCC"
+        }
+      }
     },
     "ios": {
       "supportsTablet": true,

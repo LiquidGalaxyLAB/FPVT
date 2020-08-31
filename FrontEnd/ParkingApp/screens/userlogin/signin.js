@@ -40,7 +40,7 @@ export default function SignIn({ ...props }) {
       const result = await Google.logInAsync({
         // behavior: "web",
         androidClientId:
-          "199995988486-qu2t1g122rerinmi7b4ocu9f60dvknmv.apps.googleusercontent.com",
+          "199995988486-r0nmasdges9lg55u3pff0p0o5fbdfv2r.apps.googleusercontent.com",
         scopes: ["profile", "email"],
       });
 
