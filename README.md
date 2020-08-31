@@ -116,7 +116,7 @@ https://drive.google.com/drive/folders/1JYZ6tpNezlCE1iZvtCEiAh5zQDxnyY-e?usp=sha
 Android APK link:
 https://drive.google.com/file/d/1UoyxMDrDnc-uL5hGqWd8odK_d3qGJ2oX/view?usp=sharing
 
-The apk can be directly installed in android devices.
+The apk can be directly installed in android devices. The dummy user sign in credentials are -> username: user1; password: password.
 
 The app was built using react native expo tools. To run the app from the repository, navigate to the */Frontend/ParkingApp/* folder and run the following commands on the terminal. The reference documenttion can be found here: https://docs.expo.io/workflow/expo-cli/
 sudo npm install -g expo-cli
