@@ -7,12 +7,15 @@ import {
   TouchableOpacity,
   Alert,
   Image,
+  ScrollView,
 } from "react-native";
 
 import { globalStyles } from "../../styles/global.js";
 import { Formik } from "formik";
-import { TextInput, ScrollView } from "react-native-gesture-handler";
+import { TextInput } from "react-native-gesture-handler";
 import * as yup from "yup";
+// import { AND_CLIENT_ID } from "react-native-dotenv";
+import * as Google from "expo-google-app-auth";
 
 import Users from "./users";
 
@@ -24,19 +27,43 @@ const SurveySchema = yup.object({
 });
 
 const initialValues = {
-  username: "",
-  password: "",
+  username: "user1",
+  password: "password",
 };
 
 export default function SignIn({ ...props }) {
   // const IP = props.navigation.getParam("ip", " ");
   // const PORT = props.navigation.getParam("port", " ");
 
-  // let data = { ip: IP, port: PORT };
+  async function signInWithGoogleAsync() {
+    try {
+      const result = await Google.logInAsync({
+        // behavior: "web",
+        androidClientId:
+          "199995988486-qu2t1g122rerinmi7b4ocu9f60dvknmv.apps.googleusercontent.com",
+        scopes: ["profile", "email"],
+      });
+
+      if (result.type === "success") {
+        return result.accessToken;
+      } else {
+        return { cancelled: true };
+      }
+    } catch (e) {
+      return { error: true };
+    }
+  }
+
+  const signInWithGoogle = () => {
+    signInWithGoogleAsync();
+    console.log("Google Signin");
+    // Alert.alert("Google login", "Login successful!", [{ text: "OK" }]);
+    props.navigation.push("FillIp");
+  };
 
   const pressHandlermain = () => {
     console.log("Signin Successful!");
-    props.navigation.push("Home"); //,data
+    props.navigation.push("FillIp"); //,data
     // Alert.alert("", JSON.stringify(props.navigation.state.params));
   };
   const pressHandler2 = () => {
@@ -61,7 +88,7 @@ export default function SignIn({ ...props }) {
   };
 
   return (
-    <View>
+    <ScrollView>
       <View style={{ backgroundColor: "#4b788f" }}>
         <Image
           // source={require("..components/images/PSpace.jpg")}
@@ -131,9 +158,17 @@ export default function SignIn({ ...props }) {
                 </View>
 
                 <View style={globalStyles.container}>
+                  <Button
+                    title="Google"
+                    color="#4b788f"
+                    onPress={() => signInWithGoogle()}
+                  />
+                </View>
+
+                <View style={globalStyles.container}>
                   <View style={globalStyles.buttonContainer}>
                     <Button
-                      title="Submit"
+                      title="Sign In"
                       color="#4b788f"
                       onPress={() => {
                         loginHandle(
@@ -165,8 +200,6 @@ export default function SignIn({ ...props }) {
           </View>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({});
