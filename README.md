@@ -115,7 +115,7 @@ The link and all the other details of the mobile application can be found in the
 https://drive.google.com/drive/folders/1JYZ6tpNezlCE1iZvtCEiAh5zQDxnyY-e?usp=sharing
 
 Android APK link:
-https://drive.google.com/file/d/1UoyxMDrDnc-uL5hGqWd8odK_d3qGJ2oX/view?usp=sharing
+https://drive.google.com/file/d/1qc5NRaWLtFQZwb8ryI9m6Kv0fC3ajsR_/view?usp=sharing
 
 The apk can be directly installed in android devices. The default dummy user sign in credentials are -> username: user1; password: password. The user can also sign in using Google by clicking on the "Google" button, entering the credentials and then clicking on "Sign in".
 
